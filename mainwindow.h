@@ -38,6 +38,8 @@ private:
     void initPlot();
 
     void interpolation();
+    double der(int n, double h, double *y);
+    int factorial(int x);
 
     void replot();
 

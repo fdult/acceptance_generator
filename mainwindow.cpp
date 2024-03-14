@@ -37,7 +37,14 @@ void MainWindow::initPlot()
         V.y.push_back(200-i);
     }
 
-    interpolation();
+    // interpolation();
+
+    double *a=new double [2];
+    a[0]=4;
+    a[1]=9;
+    a[2]=16;
+    a[3]=25;
+    qDebug()<<der(4,1,a);
 
     replot();
 
@@ -61,6 +68,30 @@ void MainWindow::interpolation()
         temp=a*pow(Interpolation.x[i]-V.x[i],3)+b*pow(Interpolation.x[i]-V.x[i],2)+c*(Interpolation.x[i]-V.x[i])+d;
         Interpolation.y.push_back(temp);
     }
+}
+
+double MainWindow::der(int n,double h,double *y)
+{
+    double der=0;
+    for (int i=0;i<n-1;i++)
+    {
+        der+=y[i];
+    }
+    qDebug()<<der;
+    der/=n-1;
+    return der;
+}
+
+int MainWindow::factorial(int x)
+{
+    int res=1;
+    for (int i=1;i<=x;i++)
+    {
+        res*=i;
+    }
+    if (x>0) return res;
+    else return 1;
+
 }
 
 void MainWindow::xAxisChanged(const QCPRange &newRange)
