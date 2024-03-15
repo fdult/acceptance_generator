@@ -16,8 +16,16 @@ public:
     explicit Voltage(QWidget *parent = nullptr);
     ~Voltage();
 
+    QPair <QVector <double>,QVector <double>> V;
+
 private:
     Ui::Voltage *ui;
+
+    void init();
+    void setVolatge();
+
+signals:
+    void setVoltageSignal();
 };
 
 #endif // VOLTAGE_H

@@ -5,19 +5,27 @@
 
 namespace Ui
 {
-    class parametersAcceleration;
+    class ParametersAcceleration;
 }
 
-class parametersAcceleration : public QDialog
+class ParametersAcceleration : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit parametersAcceleration(QWidget *parent = nullptr);
-    ~parametersAcceleration();
+    explicit ParametersAcceleration(QWidget *parent = nullptr);
+    ~ParametersAcceleration();
+
+    QVector <double> parameters;
 
 private:
-    Ui::parametersAcceleration *ui;
+    Ui::ParametersAcceleration *ui;
+
+    void init();
+    void set();
+
+signals:
+    void setParameters();
 };
 
 #endif // PARAMETERSACCELERATION_H

@@ -14,19 +14,22 @@ SOURCES += \
     mainwindow.cpp \
     parametersacceleration.cpp \
     qcustomplot.cpp \
-    voltage.cpp
+    voltage.cpp \
+    voltageplot.cpp
 
 HEADERS += \
     calculate.h \
     mainwindow.h \
     parametersacceleration.h \
     qcustomplot.h \
-    voltage.h
+    voltage.h \
+    voltageplot.h
 
 FORMS += \
     mainwindow.ui \
     parametersacceleration.ui \
-    voltage.ui
+    voltage.ui \
+    voltageplot.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

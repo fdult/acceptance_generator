@@ -14,59 +14,90 @@ MainWindow::~MainWindow()
 
 void MainWindow::initPlot()
 {
-    ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(0)->setPen(QPen(Qt::blue));
-    ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(0)->setName("Функция");
+    voltage=new Voltage(this);
+    calculate=new Calculate();
+    parametersAcceleration=new ParametersAcceleration(this);
+
+    // plot
+    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
+    connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
+
+    // menu
+    connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
+    connect(ui->action_parametersAcceleration,&QAction::triggered,parametersAcceleration,&ParametersAcceleration::show);
+
+    // voltage dialog
+    connect(voltage,&Voltage::setVoltageSignal,this,&MainWindow::setCycleParameters);
+
+
+
+    ui->plot->xAxis->setRange(-0.2,10e3);
+    ui->plot->yAxis->setRange(-0.4,10.4);
+
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(1)->setPen(QPen(Qt::red));
-    ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(1)->setName("Интреполяция");
+    ui->plot->graph(0)->setPen(QPen(Qt::green));
+    ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    ui->plot->graph(0)->setName("Напряжение");
+
+    // ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
+    // ui->plot->graph(1)->setPen(QPen(Qt::red));
+    // ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    // ui->plot->graph(1)->setName("Интреполяция");
+
+    ui->plot->legend->setVisible(true);
 
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    // for (int i=0;i<100;i++)
-    // {
-    //     V.x.push_back(i*0.1);
-    //     V.y.push_back(i);
-    // }
-    // for (int i=100;i<200;i++)
-    // {
-    //     V.x.push_back(i*0.1);
-    //     V.y.push_back(200-i);
-    // }
+    setCycleParameters();
 
-    V.x.push_back(0);
-    V.y.push_back(0);
+}
 
-    V.x.push_back(1);
-    V.y.push_back(1);
+void MainWindow::setCycleParameters()
+{
+    clearPoints();
 
-    V.x.push_back(2);
-    V.y.push_back(-1);
+    // Voltage
+    points.V=calculate->setVoltage(voltage->V);
+    // B field
 
-    V.x.push_back(3);
-    V.y.push_back(0);
+    // dB
 
-    V.x.push_back(4);
-    V.y.push_back(0);
+    // frequency
 
-    // for (int i=0;i<V.x.size()*100;i++)
-    // {
-    //     Interpolation.y.push_back(0);
-    //     Interpolation.x.push_back(0);
-    // }
+    // Energy
 
-    interpolation(V.x,V.y);
+    // Acceptance
 
     replot();
 
 }
 
+void MainWindow::clearPoints()
+{
+    points.V.first.clear();
+    points.V.second.clear();
+
+    points.B.first.clear();
+    points.B.second.clear();
+
+    points.dB.first.clear();
+    points.dB.second.clear();
+
+    points.f.first.clear();
+    points.f.second.clear();
+
+    points.E.first.clear();
+    points.E.second.clear();
+
+    points.Acceptance.first.clear();
+    points.Acceptance.second.clear();
+}
+
+/*
 void MainWindow::interpolation(QVector <double> x,QVector <double> y)
 {
-    /*
+
     for (int i=0;i<V.x.size()-2;i++)
     {
         double h=V.x[i+1]-V.x[i];
@@ -87,7 +118,7 @@ void MainWindow::interpolation(QVector <double> x,QVector <double> y)
 
         }
     }
-    */
+    //
 
 
     // this
@@ -136,7 +167,7 @@ void MainWindow::interpolation(QVector <double> x,QVector <double> y)
 
     // }
 
-/*
+
     for (int i=0;i<V.x.size()-2;i++)
     {
         double h=V.x[i+1]-V.x[i];
@@ -171,7 +202,7 @@ void MainWindow::interpolation(QVector <double> x,QVector <double> y)
 
         }
     }
-*/
+//
 
 }
 
@@ -205,23 +236,20 @@ double MainWindow::min_c(double a, double b, double c)
     else if (b<a && b<c) return b;
     else if (c<a && c<b) return c;
 }
+*/
 
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.5,10.5);
+    QCPRange limitRange(-0.2,10e3);
     limitAxisRange(axis,newRange,limitRange);
 }
 
 void MainWindow::yAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
-    if (QObject::sender()==ui->plot->yAxis2)
-    {
-        QCPRange limitRange(-10.5,10.5);
-        limitAxisRange(axis,newRange,limitRange);
-    }
-
+    QCPRange limitRange(-0.4,10.4);
+    limitAxisRange(axis,newRange,limitRange);
 }
 
 void MainWindow::limitAxisRange(QCPAxis *axis,const QCPRange &newRange,const QCPRange &limitRange)
@@ -247,8 +275,8 @@ void MainWindow::limitAxisRange(QCPAxis *axis,const QCPRange &newRange,const QCP
 
 void MainWindow::replot()
 {
-    ui->plot->graph(0)->setData(V.x,V.y);
-    ui->plot->graph(1)->setData(Interpolation.x,Interpolation.y);
+    ui->plot->graph(0)->setData(points.V.first,points.V.second);
+    // ui->plot->graph(1)->setData(Interpolation.x,Interpolation.y);
 
     ui->plot->replot();
     ui->plot->update();

@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <qcustomplot.h>
-
+#include <voltage.h>
+#include <calculate.h>
+#include <parametersacceleration.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -12,15 +14,22 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
-struct V
-{
-    QVector <double> x,y;
+struct points
+{    //               x                y
+    QPair <QVector <double>,QVector <double>> V;
+    QPair <QVector <double>,QVector <double>> B;
+    QPair <QVector <double>,QVector <double>> dB;
+    QPair <QVector <double>,QVector <double>> f;
+    QPair <QVector <double>,QVector <double>> E;
+    QPair <QVector <double>,QVector <double>> Acceptance;
 };
 
+/*
 struct Interpolation
 {
     QVector <double> x,y;
 };
+*/
 
 class MainWindow : public QMainWindow
 {
@@ -33,17 +42,26 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    V V;
-    Interpolation Interpolation;
+    Voltage *voltage;
+    Calculate *calculate;
+    ParametersAcceleration *parametersAcceleration;
+
+    points points;
 
     void initPlot();
+    void setCycleParameters();
+    void clearPoints();
 
+    /*
+
+    Interpolation Interpolation;
     void interpolation(QVector<double> x, QVector<double> y);
     double derivative(double h, double y1, double y2);
 
     int factorial(int x);
     double sign(double a,double s);
     double min_c(double a,double b,double c);
+    */
 
     void replot();
 

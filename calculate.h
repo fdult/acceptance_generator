@@ -3,13 +3,15 @@
 
 #include <QObject>
 
-class calculate : public QObject
+
+class Calculate : public QObject
 {
     Q_OBJECT
 public:
-    explicit calculate(QObject *parent = nullptr);
+    explicit Calculate(QObject *parent = nullptr);
 
-signals:
+    QPair <QVector <double>,QVector<double>> setVoltage(QPair <QVector <double>, QVector <double>> Voltage);
+
 };
 
 #endif // CALCULATE_H
