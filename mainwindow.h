@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <qcustomplot.h>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -37,9 +38,12 @@ private:
 
     void initPlot();
 
-    void interpolation();
-    double der(int n, double h, double *y);
+    void interpolation(QVector<double> x, QVector<double> y);
+    double derivative(double h, double y1, double y2);
+
     int factorial(int x);
+    double sign(double a,double s);
+    double min_c(double a,double b,double c);
 
     void replot();
 

@@ -26,60 +26,158 @@ void MainWindow::initPlot()
 
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    for (int i=0;i<100;i++)
-    {
-        V.x.push_back(i*0.1);
-        V.y.push_back(i);
-    }
-    for (int i=100;i<200;i++)
-    {
-        V.x.push_back(i*0.1);
-        V.y.push_back(200-i);
-    }
+    // for (int i=0;i<100;i++)
+    // {
+    //     V.x.push_back(i*0.1);
+    //     V.y.push_back(i);
+    // }
+    // for (int i=100;i<200;i++)
+    // {
+    //     V.x.push_back(i*0.1);
+    //     V.y.push_back(200-i);
+    // }
 
-    // interpolation();
+    V.x.push_back(0);
+    V.y.push_back(0);
 
-    double *a=new double [2];
-    a[0]=4;
-    a[1]=9;
-    a[2]=16;
-    a[3]=25;
-    qDebug()<<der(4,1,a);
+    V.x.push_back(1);
+    V.y.push_back(1);
+
+    V.x.push_back(2);
+    V.y.push_back(-1);
+
+    V.x.push_back(3);
+    V.y.push_back(0);
+
+    V.x.push_back(4);
+    V.y.push_back(0);
+
+    // for (int i=0;i<V.x.size()*100;i++)
+    // {
+    //     Interpolation.y.push_back(0);
+    //     Interpolation.x.push_back(0);
+    // }
+
+    interpolation(V.x,V.y);
 
     replot();
 
 }
 
-void MainWindow::interpolation()
+void MainWindow::interpolation(QVector <double> x,QVector <double> y)
 {
-    for (int i=0;i<198;i++)
+    /*
+    for (int i=0;i<V.x.size()-2;i++)
     {
         double h=V.x[i+1]-V.x[i];
         double s=(V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i]);
         double d=V.y[i];
-        double c=0;
-        double b=(3*s-2*(V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])-(V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1]))/h;
-        double a=((V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])+(V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1])-2*s)/(h*h);
-        c=s;
+        double c=der(h,V.y[i],V.y[i+1]);
+        double b=(3*s-2*der(h,V.y[i],V.y[i+1])-der(h,V.y[i+1],V.y[i+2]))/h;
+        double a=(der(h,V.y[i],V.y[i+1])+der(h,V.y[i+1],V.y[i+2])-2*s)/(h*h);
 
-        double temp=0;
+        for (int ii=i*100;ii<100*(i+1);ii++)
+        {
+            double temp=0;
 
-        Interpolation.x.push_back(i*0.01);
-        temp=a*pow(Interpolation.x[i]-V.x[i],3)+b*pow(Interpolation.x[i]-V.x[i],2)+c*(Interpolation.x[i]-V.x[i])+d;
-        Interpolation.y.push_back(temp);
+            Interpolation.x.push_back(ii*0.01);
+            temp=a*pow(Interpolation.x[ii]-V.x[i],3)+b*pow(Interpolation.x[ii]-V.x[i],2)+c*(Interpolation.x[ii]-V.x[i])+d;
+            Interpolation.y.push_back(temp);
+            // qDebug()<<a<<b<<c<<d<<s<<der(h,V.y[i],V.y[i+1]);
+
+        }
     }
+    */
+
+
+    // this
+    for (int i=0;i<x.size()-2;i++)
+    {
+        double dx=0.01;
+
+        double h=x[i+1]-x[i];
+
+        double der=derivative(h,y[i],y[i+1]);
+
+        double s=(y[i+1]-y[i])/(x[i+1]-x[i]);
+
+        double a=(derivative(h,y[i],y[i+1])+derivative(h,y[i+1],y[i+2])-2*s)/(h*h);
+
+        double p=(s*(x[i+2]-x[i+1])+(x[i+2]-x[i+1])*h)/(h+x[i+2]-x[i+1]+(y[i+2]-y[i+1]));
+
+        if ((y[i+1]-y[i])/(x[i+1]-x[i])*(y[i+2]-y[i+1])/(x[i+2]-x[i+1])<=0) der=0;
+        else if (fabs(p)>2*fabs(s)) der=2*a*std::min(s,x[i+2]-x[i+1]);
+        else if (fabs(p)>2*fabs(x[i+2]-x[i+1])) der=a;
+        else der=p;
+
+        a=(der+der-2*s)/(h*h);
+
+        double d=y[i];
+        double c=der;
+        double b=(3*s-2*derivative(h,y[i],y[i+1])-derivative(h,y[i+1],y[i+2]))/h;
+
+        for (int ii=i*100;ii<100*(i+1);ii++)
+        {
+            double temp=0;
+
+            Interpolation.x.push_back(ii*dx);
+            temp=a*pow(Interpolation.x[ii]-x[i],3)+b*pow(Interpolation.x[ii]-x[i],2)+c*(Interpolation.x[ii]-x[i])+d;
+            Interpolation.y.push_back(temp);
+            // qDebug()<<a<<b<<c<<d<<s<<der(h,y[i],y[i+1]);
+
+        }
+    }
+
+
+    // int N=x.size();
+
+    // for (int i=0;i<N;i++)
+    // {
+
+    // }
+
+/*
+    for (int i=0;i<V.x.size()-2;i++)
+    {
+        double h=V.x[i+1]-V.x[i];
+
+        double der=derivative(h,V.y[i+1],V.y[i+2]);
+
+        double s=(V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i]);
+
+        double a=(derivative(h,V.y[i],V.y[i+1])+derivative(h,V.y[i+1],V.y[i+2])-2*s)/(h*h);
+
+        double p=(s*(V.x[i+2]-V.x[i+1])+(V.x[i+2]-V.x[i+1])*h)/(h+V.x[i+2]-V.x[i+1]+(V.y[i+2]-V.y[i+1]));
+
+        // if ((V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])*(V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1])<=0) der=0;
+        // else if (fabs(p)>2*fabs(s)) der=2*a*std::min(s,V.x[i+2]-V.x[i+1]);
+        // else if (fabs(p)>2*fabs(V.x[i+2]-V.x[i+1])) der=a;
+        // else der=p;
+
+        der=(sign(1,V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])+sign(1,V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1]))*min_c(fabs((V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])),fabs((V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1])),0.5*fabs(p));
+
+        double d=V.y[i];
+        double c=der;
+        double b=(3*s-2*der-derivative(h,V.y[i+1],V.y[i+2]))/h;
+
+        for (int ii=i*100;ii<100*(i+1);ii++)
+        {
+            double temp=0;
+
+            Interpolation.x.push_back(ii*0.01);
+            temp=a*pow(Interpolation.x[ii]-V.x[i],3)+b*pow(Interpolation.x[ii]-V.x[i],2)+c*(Interpolation.x[ii]-V.x[i])+d;
+            Interpolation.y.push_back(temp);
+            // qDebug()<<a<<b<<c<<d<<s<<der(h,V.y[i],V.y[i+1]);
+
+        }
+    }
+*/
+
 }
 
-double MainWindow::der(int n,double h,double *y)
+double MainWindow::derivative(double h,double y1,double y2)
 {
-    double der=0;
-    for (int i=0;i<n-1;i++)
-    {
-        der+=y[i];
-    }
-    qDebug()<<der;
-    der/=n-1;
-    return der;
+    return (y2-y1)/h;
 }
 
 int MainWindow::factorial(int x)
@@ -92,6 +190,20 @@ int MainWindow::factorial(int x)
     if (x>0) return res;
     else return 1;
 
+}
+
+double MainWindow::sign(double a, double s)
+{
+    if (s>0) return a;
+    if (s<0) return -a;
+    if (s==0) return 0;
+}
+
+double MainWindow::min_c(double a, double b, double c)
+{
+    if (a<b && a<c) return a;
+    else if (b<a && b<c) return b;
+    else if (c<a && c<b) return c;
 }
 
 void MainWindow::xAxisChanged(const QCPRange &newRange)
