@@ -14,24 +14,27 @@ SOURCES += \
     mainwindow.cpp \
     parametersacceleration.cpp \
     qcustomplot.cpp \
-    voltage.cpp \
-    voltageplot.cpp
+    voltage.cpp
 
 HEADERS += \
     calculate.h \
     mainwindow.h \
     parametersacceleration.h \
     qcustomplot.h \
-    voltage.h \
-    voltageplot.h
+    voltage.h
 
 FORMS += \
     mainwindow.ui \
     parametersacceleration.ui \
-    voltage.ui \
-    voltageplot.ui
+    voltage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+win32: LIBS += -LC:/Users/qwerty/vcpkg/packages/gsl_x64-windows/bin -lgsl
+
+INCLUDEPATH += C:/Users/qwerty/vcpkg/packages/gsl_x64-windows/include/gsl
+DEPENDPATH += C:/Users/qwerty/vcpkg/packages/gsl_x64-windows/include/gsl

@@ -48,6 +48,7 @@ private:
 
     points points;
 
+    void initWindow();
     void initPlot();
     void setCycleParameters();
     void clearPoints();

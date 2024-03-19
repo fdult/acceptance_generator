@@ -4,7 +4,10 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    initWindow();
     initPlot();
+
+    setCycleParameters();
 }
 
 MainWindow::~MainWindow()
@@ -12,15 +15,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::initPlot()
+void MainWindow::initWindow()
 {
     voltage=new Voltage(this);
     calculate=new Calculate();
     parametersAcceleration=new ParametersAcceleration(this);
-
-    // plot
-    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
-    connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
 
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
@@ -30,10 +29,63 @@ void MainWindow::initPlot()
     connect(voltage,&Voltage::setVoltageSignal,this,&MainWindow::setCycleParameters);
 
 
+}
+
+void MainWindow::initPlot()
+{
+    // plot
+    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
+    connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
+
+
+    /////////////////////////////////////////
+    /// Dark mode
+    ui->plot->xAxis->setBasePen(QPen(Qt::white,1));
+    ui->plot->yAxis->setBasePen(QPen(Qt::white,1));
+    ui->plot->xAxis->setTickPen(QPen(Qt::white,1));
+    ui->plot->yAxis->setTickPen(QPen(Qt::white,1));
+    ui->plot->xAxis->setSubTickPen(QPen(Qt::white,1));
+    ui->plot->yAxis->setSubTickPen(QPen(Qt::white,1));
+    ui->plot->xAxis->setTickLabelColor(Qt::white);
+    ui->plot->yAxis->setTickLabelColor(Qt::white);
+    ui->plot->xAxis->grid()->setPen(QPen(QColor(140,140,140),1,Qt::DotLine));
+    ui->plot->yAxis->grid()->setPen(QPen(QColor(140,140,140),1,Qt::DotLine));
+    ui->plot->xAxis->grid()->setSubGridPen(QPen(QColor(80,80,80),1,Qt::DotLine));
+    ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(80,80,80),1,Qt::DotLine));
+    ui->plot->xAxis->grid()->setSubGridVisible(true);
+    ui->plot->yAxis->grid()->setSubGridVisible(true);
+    ui->plot->xAxis->grid()->setZeroLinePen(QPen(Qt::white,2));
+    ui->plot->yAxis->grid()->setZeroLinePen(QPen(Qt::white,2));
+    ui->plot->xAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
+    ui->plot->yAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
+
+    QLinearGradient plotGradient;
+    plotGradient.setStart(0,0);
+    plotGradient.setFinalStop(0,350);
+    plotGradient.setColorAt(0,QColor(80,80,80));
+    plotGradient.setColorAt(1, QColor(50,50,50));
+    ui->plot->setBackground(plotGradient);
+
+    QLinearGradient axisRectGradient;
+    axisRectGradient.setStart(0,0);
+    axisRectGradient.setFinalStop(0,350);
+    axisRectGradient.setColorAt(0,QColor(80,80,80));
+    axisRectGradient.setColorAt(1,QColor(30,30,30));
+    ui->plot->axisRect()->setBackground(axisRectGradient);
+    /////////////////////////////////////////
+
+
+    QFont pfont=font();
+    pfont.setPointSize(11);
+    pfont.setStyleHint(QFont::SansSerif);
+    ui->plot->legend->setFont(pfont);
+    ui->plot->legend->setSelectedFont(pfont);
+
+    ui->plot->xAxis->setTickLabelFont(pfont);
+    ui->plot->yAxis->setTickLabelFont(pfont);
 
     ui->plot->xAxis->setRange(-0.2,10e3);
     ui->plot->yAxis->setRange(-0.4,10.4);
-
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
@@ -49,7 +101,6 @@ void MainWindow::initPlot()
 
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
-    setCycleParameters();
 
 }
 
@@ -58,7 +109,16 @@ void MainWindow::setCycleParameters()
     clearPoints();
 
     // Voltage
-    points.V=calculate->setVoltage(voltage->V);
+    voltage->V_interpol=calculate->setVoltage(voltage->V);
+    points.V=voltage->V_interpol;
+
+    voltage->replot();
+
+
+    qDebug()<<calculate->B_inj(parametersAcceleration->parameters);
+    qDebug()<<calculate->B_0(parametersAcceleration->parameters);
+
+    qDebug()<<calculate->f_inj(parametersAcceleration->parameters);
     // B field
 
     // dB
@@ -70,6 +130,8 @@ void MainWindow::setCycleParameters()
     // Acceptance
 
     replot();
+
+
 
 }
 
@@ -238,6 +300,15 @@ double MainWindow::min_c(double a, double b, double c)
 }
 */
 
+void MainWindow::replot()
+{
+    // ui->plot->graph(0)->setData(points.V.first,points.V.second);
+    // ui->plot->graph(1)->setData(Interpolation.x,Interpolation.y);
+
+    ui->plot->replot();
+    ui->plot->update();
+}
+
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
@@ -273,11 +344,4 @@ void MainWindow::limitAxisRange(QCPAxis *axis,const QCPRange &newRange,const QCP
     }
 }
 
-void MainWindow::replot()
-{
-    ui->plot->graph(0)->setData(points.V.first,points.V.second);
-    // ui->plot->graph(1)->setData(Interpolation.x,Interpolation.y);
 
-    ui->plot->replot();
-    ui->plot->update();
-}
