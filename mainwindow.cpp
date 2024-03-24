@@ -115,10 +115,10 @@ void MainWindow::setCycleParameters()
     voltage->replot();
 
 
-    qDebug()<<calculate->B_inj(parametersAcceleration->parameters);
-    qDebug()<<calculate->B_0(parametersAcceleration->parameters);
+    // qDebug()<<calculate->B_inj(parametersAcceleration->parameters);
+    // qDebug()<<calculate->B_0(parametersAcceleration->parameters);
+    // qDebug()<<calculate->f_inj(parametersAcceleration->parameters);
 
-    qDebug()<<calculate->f_inj(parametersAcceleration->parameters);
     // B field
 
     // dB

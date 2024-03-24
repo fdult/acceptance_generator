@@ -23,8 +23,6 @@ public:
 
     void replot();
 
-    void setInterpolation(QPair <QVector <double>,QVector <double>> V);
-
 private:
     Ui::Voltage *ui;
 
@@ -32,6 +30,7 @@ private:
     void initPlot();
     void setVolatge();
 
+    void changeItem(int row,int col);
 
 private slots:
     // plot

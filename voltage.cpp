@@ -22,6 +22,15 @@ void Voltage::init()
     setWindowTitle("Параметры напряжения");
 
     connect(ui->pushButton,&QPushButton::clicked,this,&Voltage::setVolatge);
+    connect(ui->btn_refresh,&QPushButton::clicked,this,[=]()
+    {
+        for (int i=1;i<=ui->tableWidget->rowCount();i++)
+        {
+            ui->tableWidget->item(i-1,2)->setText(QString::number(100));
+        }
+
+        setVolatge();
+    });
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
@@ -49,6 +58,8 @@ void Voltage::init()
         ui->tableWidget->item(i-1,3)->setText(QString::number(ui->tableWidget->item(i-1,0)->text().toDouble()
                                                                 *ui->tableWidget->item(i-1,2)->text().toDouble()/100));
     }
+
+    connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
 }
 
 void Voltage::initPlot()
@@ -97,9 +108,31 @@ void Voltage::setVolatge()
         V.first.push_back(ui->tableWidget->item(i,1)->text().toDouble());
     }
 
+    qDebug()<<ui->tableWidget->rowCount();
+
     emit setVoltageSignal();
 
     replot();
+}
+
+void Voltage::changeItem(int row,int col)
+{
+    if (col==2)
+    {
+        bool isNum=false;
+        double num=ui->tableWidget->item(row,col)->text().toDouble(&isNum);
+        if (isNum)
+        {
+            ui->tableWidget->item(row,col)->setBackground(Qt::white);
+            setVolatge();
+            qDebug()<<1;
+        }
+        else
+        {
+            ui->tableWidget->item(row,col)->setBackground(Qt::red);
+        }
+    }
+
 }
 
 void Voltage::replot()
@@ -111,11 +144,6 @@ void Voltage::replot()
 
     ui->plot->replot();
     ui->plot->update();
-}
-
-void Voltage::setInterpolation(QPair<QVector<double>, QVector<double> > V)
-{
-
 }
 
 void Voltage::xAxisChanged(const QCPRange &newRange)
