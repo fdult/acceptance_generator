@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>787</width>
-    <height>549</height>
+    <height>738</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -104,20 +104,40 @@
       <property name="text">
        <string>Напряжение 100%, кВ</string>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
      </column>
      <column>
       <property name="text">
        <string>Частота, кГц</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
       </property>
      </column>
      <column>
       <property name="text">
        <string>Мощность, %</string>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
      </column>
      <column>
       <property name="text">
        <string>Напряжение с учётом мощности, кВ</string>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
       </property>
      </column>
      <item row="0" column="0">
@@ -145,6 +165,9 @@
       </property>
      </item>
      <item row="0" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
@@ -174,6 +197,9 @@
       </property>
      </item>
      <item row="1" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
@@ -203,6 +229,9 @@
       </property>
      </item>
      <item row="2" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
@@ -232,6 +261,9 @@
       </property>
      </item>
      <item row="3" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
@@ -261,6 +293,9 @@
       </property>
      </item>
      <item row="4" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
@@ -290,6 +325,9 @@
       </property>
      </item>
      <item row="5" column="3">
+      <property name="text">
+       <string/>
+      </property>
       <property name="flags">
        <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>

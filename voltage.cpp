@@ -83,6 +83,12 @@ void Voltage::initPlot()
     ui->plot->xAxis->setRange(-1.5,1.3e3);
     ui->plot->yAxis->setRange(-0.4,10.4);
 
+    // QSharedPointer <QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
+    // fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples );
+    // fixedTicker->setTickStep(100.0);
+
+    // ui->plot->xAxis->setTicker(fixedTicker);
+
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
@@ -108,8 +114,6 @@ void Voltage::setVolatge()
         V.first.push_back(ui->tableWidget->item(i,1)->text().toDouble());
     }
 
-    qDebug()<<ui->tableWidget->rowCount();
-
     emit setVoltageSignal();
 
     replot();
@@ -126,7 +130,6 @@ void Voltage::changeItem(int row,int col)
         {
             ui->tableWidget->item(row,col)->setBackground(Qt::white);
             setVolatge();
-            qDebug()<<num<<row<<col;
         }
         else
         {
