@@ -119,18 +119,20 @@ void Voltage::changeItem(int row,int col)
 {
     if (col==2)
     {
+        disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
         bool isNum=false;
         double num=ui->tableWidget->item(row,col)->text().toDouble(&isNum);
         if (isNum)
         {
             ui->tableWidget->item(row,col)->setBackground(Qt::white);
             setVolatge();
-            qDebug()<<1;
+            qDebug()<<num<<row<<col;
         }
         else
         {
             ui->tableWidget->item(row,col)->setBackground(Qt::red);
         }
+        connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
     }
 
 }
