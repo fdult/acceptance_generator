@@ -349,8 +349,8 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../build-acceptance_generator-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug/icons/refresh.png</normaloff>../build-acceptance_generator-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug/icons/refresh.png</iconset>
+      <iconset resource="resource.qrc">
+       <normaloff>:/icons/icons/refresh.png</normaloff>:/icons/icons/refresh.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -376,6 +376,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
