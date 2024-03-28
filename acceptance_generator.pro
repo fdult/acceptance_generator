@@ -33,16 +33,18 @@ FORMS += \
     parametersacceleration.ui \
     voltage.ui
 
+RC_ICONS = icons/icon_app.ico
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-win32: LIBS += -LC:/Users/fedor/Documents/gsl_2.7/gsl_bin/bin -lgsl
+win32: LIBS += -LC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin -lgsl
 
-INCLUDEPATH += C:/Users/fedor/Documents/gsl_2.7/gsl_src/include/gsl
-DEPENDPATH += C:/Users/fedor/Documents/gsl_2.7/gsl_src/include/gsl
+INCLUDEPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
+DEPENDPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
 
 RESOURCES += \
     resource.qrc

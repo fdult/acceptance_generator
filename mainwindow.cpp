@@ -17,6 +17,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::initWindow()
 {
+    setWindowIcon(QIcon(":/icons/1.ico"));
+
     voltage=new Voltage(this);
     calculate=new Calculate();
     parametersAcceleration=new ParametersAcceleration(this);
@@ -28,7 +30,8 @@ void MainWindow::initWindow()
     // voltage dialog
     connect(voltage,&Voltage::setVoltageSignal,this,&MainWindow::setCycleParameters);
 
-
+    // parameters dialog
+    connect(parametersAcceleration,&ParametersAcceleration::setParameters,this,&MainWindow::setCycleParameters);
 }
 
 void MainWindow::initPlot()
@@ -115,10 +118,12 @@ void MainWindow::setCycleParameters()
     voltage->replot();
 
 
-    // qDebug()<<calculate->B_inj(parametersAcceleration->parameters);
-    // qDebug()<<calculate->B_0(parametersAcceleration->parameters);
-    // qDebug()<<calculate->f_inj(parametersAcceleration->parameters);
-
+    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
+    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
+    qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
+    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
+    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
+    qDebug()<<"======================================";
     // B field
 
     // dB

@@ -10,6 +10,9 @@
     <height>319</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -55,7 +58,7 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>1.1e-3</string>
+      <string>1e6</string>
      </property>
     </widget>
    </item>
@@ -133,7 +136,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Разброс по импульсу dP</string>
+      <string>Разброс по энергии dE</string>
      </property>
     </widget>
    </item>

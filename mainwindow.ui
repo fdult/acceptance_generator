@@ -21,7 +21,7 @@ QMenuBar{
 			background-color: gray;
 }
 QMenu{
-			background-color: #778899 ;
+			background-color: rgb(80,80,80);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">

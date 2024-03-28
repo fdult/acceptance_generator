@@ -15,10 +15,11 @@ public:
 
     QPair <QVector <double>,QVector<double>> setVoltage(QPair <QVector <double>, QVector <double>> Voltage);
 
-    double B_inj(QVector <double> p);
-    double B_0(QVector <double> p);
-    double f_inj(QVector <double> p);
-
+    double B_inj(QVector <double> &p);
+    double B_0(QVector <double> &p);
+    double f_inj(QVector <double> &p);
+    double e_inj(QVector <double> &p);
+    double Velocity_inj(QVector <double> &p);
 
 };
 
