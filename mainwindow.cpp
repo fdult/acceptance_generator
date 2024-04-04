@@ -22,6 +22,7 @@ void MainWindow::initWindow()
     voltage=new Voltage(this);
     calculate=new Calculate();
     parametersAcceleration=new ParametersAcceleration(this);
+    adiabaticity=new Adiabaticity(this);
 
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
@@ -32,6 +33,9 @@ void MainWindow::initWindow()
 
     // parameters dialog
     connect(parametersAcceleration,&ParametersAcceleration::setParameters,this,&MainWindow::setCycleParameters);
+
+    // parameters adiabaticity
+    // connect()
 }
 
 void MainWindow::initPlot()
@@ -77,7 +81,6 @@ void MainWindow::initPlot()
     ui->plot->axisRect()->setBackground(axisRectGradient);
     /////////////////////////////////////////
 
-
     QFont pfont=font();
     pfont.setPointSize(11);
     pfont.setStyleHint(QFont::SansSerif);
@@ -87,8 +90,8 @@ void MainWindow::initPlot()
     ui->plot->xAxis->setTickLabelFont(pfont);
     ui->plot->yAxis->setTickLabelFont(pfont);
 
-    ui->plot->xAxis->setRange(-0.2,10e3);
-    ui->plot->yAxis->setRange(-0.4,10.4);
+    ui->plot->xAxis->setRange(-200,10.2e3);
+    ui->plot->yAxis->setRange(-0.1,10.4);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
@@ -103,8 +106,6 @@ void MainWindow::initPlot()
     ui->plot->legend->setVisible(true);
 
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-
-
 }
 
 void MainWindow::setCycleParameters()
@@ -112,18 +113,13 @@ void MainWindow::setCycleParameters()
     clearPoints();
 
     // Voltage
-    voltage->V_interpol=calculate->setVoltage(voltage->V);
-    points.V=voltage->V_interpol;
-
-    voltage->replot();
+    voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
+    points.V=calculate->setVoltageTime(parametersAcceleration->parameters,adiabaticity->p);
 
 
-    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
-    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
-    qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
-    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
-    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
-    qDebug()<<"======================================";
+
+
+
     // B field
 
     // dB
@@ -134,10 +130,20 @@ void MainWindow::setCycleParameters()
 
     // Acceptance
 
+
+
+    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
+    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
+    qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
+    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
+    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
+    qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->p,0);
+    qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->p,1);
+    qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->p);
+    qDebug()<<"======================================";
+
+    voltage->replot();
     replot();
-
-
-
 }
 
 void MainWindow::clearPoints()
@@ -161,154 +167,10 @@ void MainWindow::clearPoints()
     points.Acceptance.second.clear();
 }
 
-/*
-void MainWindow::interpolation(QVector <double> x,QVector <double> y)
-{
-
-    for (int i=0;i<V.x.size()-2;i++)
-    {
-        double h=V.x[i+1]-V.x[i];
-        double s=(V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i]);
-        double d=V.y[i];
-        double c=der(h,V.y[i],V.y[i+1]);
-        double b=(3*s-2*der(h,V.y[i],V.y[i+1])-der(h,V.y[i+1],V.y[i+2]))/h;
-        double a=(der(h,V.y[i],V.y[i+1])+der(h,V.y[i+1],V.y[i+2])-2*s)/(h*h);
-
-        for (int ii=i*100;ii<100*(i+1);ii++)
-        {
-            double temp=0;
-
-            Interpolation.x.push_back(ii*0.01);
-            temp=a*pow(Interpolation.x[ii]-V.x[i],3)+b*pow(Interpolation.x[ii]-V.x[i],2)+c*(Interpolation.x[ii]-V.x[i])+d;
-            Interpolation.y.push_back(temp);
-            // qDebug()<<a<<b<<c<<d<<s<<der(h,V.y[i],V.y[i+1]);
-
-        }
-    }
-    //
-
-
-    // this
-    for (int i=0;i<x.size()-2;i++)
-    {
-        double dx=0.01;
-
-        double h=x[i+1]-x[i];
-
-        double der=derivative(h,y[i],y[i+1]);
-
-        double s=(y[i+1]-y[i])/(x[i+1]-x[i]);
-
-        double a=(derivative(h,y[i],y[i+1])+derivative(h,y[i+1],y[i+2])-2*s)/(h*h);
-
-        double p=(s*(x[i+2]-x[i+1])+(x[i+2]-x[i+1])*h)/(h+x[i+2]-x[i+1]+(y[i+2]-y[i+1]));
-
-        if ((y[i+1]-y[i])/(x[i+1]-x[i])*(y[i+2]-y[i+1])/(x[i+2]-x[i+1])<=0) der=0;
-        else if (fabs(p)>2*fabs(s)) der=2*a*std::min(s,x[i+2]-x[i+1]);
-        else if (fabs(p)>2*fabs(x[i+2]-x[i+1])) der=a;
-        else der=p;
-
-        a=(der+der-2*s)/(h*h);
-
-        double d=y[i];
-        double c=der;
-        double b=(3*s-2*derivative(h,y[i],y[i+1])-derivative(h,y[i+1],y[i+2]))/h;
-
-        for (int ii=i*100;ii<100*(i+1);ii++)
-        {
-            double temp=0;
-
-            Interpolation.x.push_back(ii*dx);
-            temp=a*pow(Interpolation.x[ii]-x[i],3)+b*pow(Interpolation.x[ii]-x[i],2)+c*(Interpolation.x[ii]-x[i])+d;
-            Interpolation.y.push_back(temp);
-            // qDebug()<<a<<b<<c<<d<<s<<der(h,y[i],y[i+1]);
-
-        }
-    }
-
-
-    // int N=x.size();
-
-    // for (int i=0;i<N;i++)
-    // {
-
-    // }
-
-
-    for (int i=0;i<V.x.size()-2;i++)
-    {
-        double h=V.x[i+1]-V.x[i];
-
-        double der=derivative(h,V.y[i+1],V.y[i+2]);
-
-        double s=(V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i]);
-
-        double a=(derivative(h,V.y[i],V.y[i+1])+derivative(h,V.y[i+1],V.y[i+2])-2*s)/(h*h);
-
-        double p=(s*(V.x[i+2]-V.x[i+1])+(V.x[i+2]-V.x[i+1])*h)/(h+V.x[i+2]-V.x[i+1]+(V.y[i+2]-V.y[i+1]));
-
-        // if ((V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])*(V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1])<=0) der=0;
-        // else if (fabs(p)>2*fabs(s)) der=2*a*std::min(s,V.x[i+2]-V.x[i+1]);
-        // else if (fabs(p)>2*fabs(V.x[i+2]-V.x[i+1])) der=a;
-        // else der=p;
-
-        der=(sign(1,V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])+sign(1,V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1]))*min_c(fabs((V.y[i+1]-V.y[i])/(V.x[i+1]-V.x[i])),fabs((V.y[i+2]-V.y[i+1])/(V.x[i+2]-V.x[i+1])),0.5*fabs(p));
-
-        double d=V.y[i];
-        double c=der;
-        double b=(3*s-2*der-derivative(h,V.y[i+1],V.y[i+2]))/h;
-
-        for (int ii=i*100;ii<100*(i+1);ii++)
-        {
-            double temp=0;
-
-            Interpolation.x.push_back(ii*0.01);
-            temp=a*pow(Interpolation.x[ii]-V.x[i],3)+b*pow(Interpolation.x[ii]-V.x[i],2)+c*(Interpolation.x[ii]-V.x[i])+d;
-            Interpolation.y.push_back(temp);
-            // qDebug()<<a<<b<<c<<d<<s<<der(h,V.y[i],V.y[i+1]);
-
-        }
-    }
-//
-
-}
-
-double MainWindow::derivative(double h,double y1,double y2)
-{
-    return (y2-y1)/h;
-}
-
-int MainWindow::factorial(int x)
-{
-    int res=1;
-    for (int i=1;i<=x;i++)
-    {
-        res*=i;
-    }
-    if (x>0) return res;
-    else return 1;
-
-}
-
-double MainWindow::sign(double a, double s)
-{
-    if (s>0) return a;
-    if (s<0) return -a;
-    if (s==0) return 0;
-}
-
-double MainWindow::min_c(double a, double b, double c)
-{
-    if (a<b && a<c) return a;
-    else if (b<a && b<c) return b;
-    else if (c<a && c<b) return c;
-}
-*/
 
 void MainWindow::replot()
 {
-    // ui->plot->graph(0)->setData(points.V.first,points.V.second);
-    // ui->plot->graph(1)->setData(Interpolation.x,Interpolation.y);
+    ui->plot->graph(0)->setData(points.V.first,points.V.second);
 
     ui->plot->replot();
     ui->plot->update();
@@ -317,14 +179,14 @@ void MainWindow::replot()
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.2,10e3);
+    QCPRange limitRange(-200,10.2e3);
     limitAxisRange(axis,newRange,limitRange);
 }
 
 void MainWindow::yAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.4,10.4);
+    QCPRange limitRange(-0.1,10.4);
     limitAxisRange(axis,newRange,limitRange);
 }
 

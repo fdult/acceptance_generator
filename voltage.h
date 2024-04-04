@@ -21,6 +21,8 @@ public:
 
     QPair <QVector <double>,QVector <double>> V_interpol;
 
+    QPair <QVector <double>,QVector <double>> V_sum;
+
     void replot();
 
 private:

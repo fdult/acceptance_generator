@@ -6,6 +6,7 @@
 #include <voltage.h>
 #include <calculate.h>
 #include <parametersacceleration.h>
+#include <adiabaticity.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -24,13 +25,6 @@ struct points
     QPair <QVector <double>,QVector <double>> Acceptance;
 };
 
-/*
-struct Interpolation
-{
-    QVector <double> x,y;
-};
-*/
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -45,6 +39,7 @@ private:
     Voltage *voltage;
     Calculate *calculate;
     ParametersAcceleration *parametersAcceleration;
+    Adiabaticity *adiabaticity;
 
     points points;
 
@@ -52,17 +47,6 @@ private:
     void initPlot();
     void setCycleParameters();
     void clearPoints();
-
-    /*
-
-    Interpolation Interpolation;
-    void interpolation(QVector<double> x, QVector<double> y);
-    double derivative(double h, double y1, double y2);
-
-    int factorial(int x);
-    double sign(double a,double s);
-    double min_c(double a,double b,double c);
-    */
 
     void replot();
 

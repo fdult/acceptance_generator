@@ -70,23 +70,41 @@ void Voltage::initPlot()
     /////////////////////////////////////////
     /// Dark mode
     ui->plot->xAxis->setBasePen(QPen(Qt::white,1));
+    ui->plot->xAxis2->setBasePen(QPen(Qt::white,1));
     ui->plot->yAxis->setBasePen(QPen(Qt::white,1));
+
     ui->plot->xAxis->setTickPen(QPen(Qt::white,1));
+    ui->plot->xAxis2->setTickPen(QPen(Qt::white,1));
     ui->plot->yAxis->setTickPen(QPen(Qt::white,1));
+
     ui->plot->xAxis->setSubTickPen(QPen(Qt::white,1));
+    ui->plot->xAxis2->setSubTickPen(QPen(Qt::white,1));
     ui->plot->yAxis->setSubTickPen(QPen(Qt::white,1));
+
     ui->plot->xAxis->setTickLabelColor(Qt::white);
+    ui->plot->xAxis2->setTickLabelColor(Qt::white);
     ui->plot->yAxis->setTickLabelColor(Qt::white);
+
     ui->plot->xAxis->grid()->setPen(QPen(QColor(140,140,140),1,Qt::DotLine));
+    ui->plot->xAxis2->grid()->setPen(QPen(QColor(140,140,140),1,Qt::DotLine));
     ui->plot->yAxis->grid()->setPen(QPen(QColor(140,140,140),1,Qt::DotLine));
+
     ui->plot->xAxis->grid()->setSubGridPen(QPen(QColor(80,80,80),1,Qt::DotLine));
+    ui->plot->xAxis2->grid()->setSubGridPen(QPen(QColor(80,80,80),1,Qt::DotLine));
     ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(80,80,80),1,Qt::DotLine));
+
     ui->plot->xAxis->grid()->setSubGridVisible(true);
+    ui->plot->xAxis2->grid()->setSubGridVisible(true);
     ui->plot->yAxis->grid()->setSubGridVisible(true);
+
     ui->plot->xAxis->grid()->setZeroLinePen(QPen(Qt::white,2));
+    ui->plot->xAxis2->grid()->setZeroLinePen(QPen(Qt::white,2));
     ui->plot->yAxis->grid()->setZeroLinePen(QPen(Qt::white,2));
+
     ui->plot->xAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
+    ui->plot->xAxis2->setUpperEnding(QCPLineEnding::esSpikeArrow);
     ui->plot->yAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
+
 
     QLinearGradient plotGradient;
     plotGradient.setStart(0,0);
@@ -103,24 +121,39 @@ void Voltage::initPlot()
     ui->plot->axisRect()->setBackground(axisRectGradient);
     /////////////////////////////////////////
 
+
     QFont pfont("Newyork",11);
     pfont.setStyleHint(QFont::SansSerif);
     pfont.setPointSize(11);
 
     ui->plot->xAxis->setLabel("Частота, кГц");
+    ui->plot->xAxis2->setLabel("Время, с");
     ui->plot->yAxis->setLabel("Напряжение, кВ");
 
     ui->plot->xAxis->setLabelColor(Qt::white);
+    ui->plot->xAxis2->setLabelColor(Qt::white);
     ui->plot->yAxis->setLabelColor(Qt::white);
 
     ui->plot->xAxis->setLabelFont(pfont);
+    ui->plot->xAxis2->setLabelFont(pfont);
     ui->plot->yAxis->setLabelFont(pfont);
 
     ui->plot->xAxis->setTickLabelFont(pfont);
+    ui->plot->xAxis2->setTickLabelFont(pfont);
     ui->plot->yAxis->setTickLabelFont(pfont);
 
     ui->plot->xAxis->setRange(-1.5,1.3e3);
+    ui->plot->xAxis2->setRange(-1.5,10);
     ui->plot->yAxis->setRange(-0.4,10.4);
+
+    ui->plot->xAxis2->setVisible(true);
+
+
+    // QList <QCPAxis*> draggableAxes={ui->plot->xAxis,ui->plot->yAxis,ui->plot->xAxis2};
+
+    // ui->plot->axisRect()->setRangeDragAxes(draggableAxes);
+    // ui->plot->axisRect()->setRangeZoomAxes(draggableAxes);
+
 
     // QSharedPointer <QCPAxisTickerFixed> fixedTicker(new QCPAxisTickerFixed);
     // fixedTicker->setScaleStrategy(QCPAxisTickerFixed::ssMultiples );
@@ -133,7 +166,10 @@ void Voltage::initPlot()
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(0)->setName("Напряжение");
+
+    ui->plot->addGraph(ui->plot->xAxis2,ui->plot->yAxis);
+    ui->plot->graph(1)->setPen(QPen(Qt::red));
+    ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
 }
 
 void Voltage::setVolatge()
@@ -165,8 +201,14 @@ void Voltage::changeItem(int row,int col)
         disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
         bool isNum=false;
         double num=ui->tableWidget->item(row,col)->text().toDouble(&isNum);
-        if (isNum)
+        if (isNum && num<=100)
         {
+            ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
+            setVolatge();
+        }
+        else if (num>100)
+        {
+            ui->tableWidget->item(row,col)->setText(QString::number(100));
             ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
             setVolatge();
         }
