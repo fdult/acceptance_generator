@@ -13,7 +13,7 @@ public:
     explicit Adiabaticity(QWidget *parent = nullptr);
     ~Adiabaticity();
 
-    QVector <double> p;
+    QVector <double> parameters;
     void set();
 
 private:

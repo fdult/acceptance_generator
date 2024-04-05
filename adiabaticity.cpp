@@ -17,11 +17,11 @@ Adiabaticity::~Adiabaticity()
 
 void Adiabaticity::set()
 {
-    p.clear();
+    parameters.clear();
 
-    p.push_back(ui->lineEdit->text().toDouble());
-    p.push_back(ui->lineEdit_2->text().toDouble());
-    p.push_back(ui->lineEdit_3->text().toDouble());
+    parameters.push_back(ui->lineEdit->text().toDouble());
+    parameters.push_back(ui->lineEdit_2->text().toDouble());
+    parameters.push_back(ui->lineEdit_3->text().toDouble());
 
     emit setAdiabaticityParameters();
 }

@@ -114,8 +114,8 @@ void MainWindow::setCycleParameters()
 
     // Voltage
     voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
-    points.V=calculate->setVoltageTime(parametersAcceleration->parameters,adiabaticity->p);
-
+    // points.V=calculate->setVoltageAdiabaticity(parametersAcceleration->parameters,adiabaticity->p);
+    voltage->V_time=calculate->setVoltageTime(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters);
 
 
 
@@ -132,15 +132,15 @@ void MainWindow::setCycleParameters()
 
 
 
-    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
-    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
-    qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
-    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
-    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
-    qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->p,0);
-    qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->p,1);
-    qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->p);
-    qDebug()<<"======================================";
+    // qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
+    // qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
+    // qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
+    // qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
+    // qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
+    // qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
+    // qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
+    // qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
+    // qDebug()<<"======================================";
 
     voltage->replot();
     replot();

@@ -14,7 +14,8 @@ public:
     explicit Calculate(QObject *parent=nullptr);
 
     QPair <QVector <double>,QVector<double>> setVoltageFrequency(QPair <QVector <double>, QVector <double>> Voltage);
-    QPair <QVector <double>,QVector<double>> setVoltageTime(QVector<double> &p, QVector<double> &p2);
+    QPair <QVector <double>,QVector<double>> setVoltageAdiabaticity(QVector<double> &p, QVector<double> &p2);
+    QPair <QVector <double>,QVector<double>> setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,QVector <double> &p,QVector <double> &p2);
 
     double B_inj(QVector <double> &p);
     double B_0(QVector <double> &p);
@@ -27,9 +28,9 @@ public:
     double f(QVector <double> &p);
 
     // для метода Ньютона-Рафсона
-    double derivative(double x);
-    double setNextX(double x,double y);
-    double function(double x);
+    double derivative(double x,double V,QVector <double> &p);
+    double setNextX(double x,double V,double y,QVector <double> &p);
+    double function(double sin_phi,double V,QVector <double> &p);
     ///////////////////////////////////
 };
 

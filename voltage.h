@@ -21,6 +21,8 @@ public:
 
     QPair <QVector <double>,QVector <double>> V_interpol;
 
+    QPair <QVector <double>,QVector <double>> V_time;
+
     QPair <QVector <double>,QVector <double>> V_sum;
 
     void replot();
@@ -39,8 +41,11 @@ private slots:
     //=========================================
     void limitAxisRange(QCPAxis *axis,const QCPRange &newRange,const QCPRange &limitRange);
     void xAxisChanged(const QCPRange &newRange);
+    void xAxis2Changed(const QCPRange &newRange);
     void yAxisChanged(const QCPRange &newRange);
     //=========================================
+
+    void setRng(const QCPRange &newRange);
 
 signals:
     void setVoltageSignal();

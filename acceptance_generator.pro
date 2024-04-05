@@ -14,6 +14,7 @@ QMAKE_TARGET_COPYRIGHT = JINR
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adiabaticity.cpp \
     calculate.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
     voltage.cpp
 
 HEADERS += \
+    adiabaticity.h \
     calculate.h \
     mainwindow.h \
     parametersacceleration.h \
@@ -29,6 +31,7 @@ HEADERS += \
     voltage.h
 
 FORMS += \
+    adiabaticity.ui \
     mainwindow.ui \
     parametersacceleration.ui \
     voltage.ui
@@ -41,6 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
+# win32: LIBS += -lC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gsl
 win32: LIBS += -LC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin -lgsl
 
 INCLUDEPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl

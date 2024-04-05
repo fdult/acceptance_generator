@@ -142,8 +142,8 @@ void Voltage::initPlot()
     ui->plot->xAxis2->setTickLabelFont(pfont);
     ui->plot->yAxis->setTickLabelFont(pfont);
 
-    ui->plot->xAxis->setRange(-1.5,1.3e3);
-    ui->plot->xAxis2->setRange(-1.5,10);
+    ui->plot->xAxis->setRange(-15,1.3e3);
+    ui->plot->xAxis2->setRange(-0.15,13);
     ui->plot->yAxis->setRange(-0.4,10.4);
 
     ui->plot->xAxis2->setVisible(true);
@@ -161,6 +161,13 @@ void Voltage::initPlot()
 
     // ui->plot->xAxis->setTicker(fixedTicker);
 
+    QList <QCPAxis*> axises;
+    axises<<ui->plot->xAxis<<ui->plot->xAxis2<<ui->plot->yAxis;
+
+    ui->plot->axisRect()->setRangeDragAxes(axises);
+
+    ui->plot->axisRect()->setRangeZoomAxes(axises);
+
     ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
@@ -170,6 +177,13 @@ void Voltage::initPlot()
     ui->plot->addGraph(ui->plot->xAxis2,ui->plot->yAxis);
     ui->plot->graph(1)->setPen(QPen(Qt::red));
     ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+
+    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(setRng(QCPRange)));
+    connect(ui->plot->xAxis2,SIGNAL(rangeChanged(QCPRange)),this,SLOT(setRng(QCPRange)));
+
+    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
+    connect(ui->plot->xAxis2,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxis2Changed(QCPRange)));
+    connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
 }
 
 void Voltage::setVolatge()
@@ -223,10 +237,12 @@ void Voltage::changeItem(int row,int col)
 
 void Voltage::replot()
 {
-    ui->plot->xAxis->setRange(-1.5,1.3e3);
+    ui->plot->xAxis->setRange(-15,1.3e3);
+    ui->plot->xAxis2->setRange(-0.15,13);
     ui->plot->yAxis->setRange(-0.4,10.4);
 
     ui->plot->graph(0)->setData(V_interpol.first,V_interpol.second);
+    ui->plot->graph(1)->setData(V_time.first,V_time.second);
 
     ui->plot->replot();
     ui->plot->update();
@@ -235,7 +251,14 @@ void Voltage::replot()
 void Voltage::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-1.5,1.3e3);
+    QCPRange limitRange(-15,1.3e3);
+    limitAxisRange(axis,newRange,limitRange);
+}
+
+void Voltage::xAxis2Changed(const QCPRange &newRange)
+{
+    QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
+    QCPRange limitRange(-0.15,13);
     limitAxisRange(axis,newRange,limitRange);
 }
 
@@ -244,6 +267,20 @@ void Voltage::yAxisChanged(const QCPRange &newRange)
     QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
     QCPRange limitRange(-0.4,10.4);
     limitAxisRange(axis,newRange,limitRange);
+}
+
+void Voltage::setRng(const QCPRange &newRange)
+{
+    double factor=100;
+    if (QObject::sender()==ui->plot->xAxis)
+    {
+        ui->plot->xAxis2->setRange(newRange/factor);
+    }
+
+    if (QObject::sender()==ui->plot->xAxis2)
+    {
+        ui->plot->xAxis->setRange(newRange*factor);
+    }
 }
 
 void Voltage::limitAxisRange(QCPAxis *axis,const QCPRange &newRange,const QCPRange &limitRange)
