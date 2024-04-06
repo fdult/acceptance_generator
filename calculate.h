@@ -25,12 +25,12 @@ public:
     double V_adiabaticity(QVector <double> &p, QVector <double> &p2, int numV);
     double E_total(QVector <double> &p);
     double t_adiabaticity(QVector <double> &p,QVector <double> &p2);
-    double f(QVector <double> &p);
+    double freqrequency(QVector <double> &p);
 
     // для метода Ньютона-Рафсона
-    double derivative(double x,double V,QVector <double> &p);
-    double setNextX(double x,double V,double y,QVector <double> &p);
-    double function(double sin_phi,double V,QVector <double> &p);
+    double derivative(double x,double V,double E,QVector <double> &p);
+    double setNextX(double x,double V,double E,double y,QVector <double> &p);
+    double function(double sin_phi,double V,double E,QVector <double> &p);
     ///////////////////////////////////
 };
 

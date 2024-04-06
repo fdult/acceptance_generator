@@ -27,6 +27,7 @@ void MainWindow::initWindow()
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
     connect(ui->action_parametersAcceleration,&QAction::triggered,parametersAcceleration,&ParametersAcceleration::show);
+    connect(ui->action_adiabaticity,&QAction::triggered,adiabaticity,&Adiabaticity::show);
 
     // voltage dialog
     connect(voltage,&Voltage::setVoltageSignal,this,&MainWindow::setCycleParameters);
@@ -43,7 +44,6 @@ void MainWindow::initPlot()
     // plot
     connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
     connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
-
 
     /////////////////////////////////////////
     /// Dark mode
@@ -114,9 +114,10 @@ void MainWindow::setCycleParameters()
 
     // Voltage
     voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
-    // points.V=calculate->setVoltageAdiabaticity(parametersAcceleration->parameters,adiabaticity->p);
+
     voltage->V_time=calculate->setVoltageTime(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters);
 
+    // points.V=calculate->setVoltageAdiabaticity(parametersAcceleration->parameters,adiabaticity->p);
 
 
 

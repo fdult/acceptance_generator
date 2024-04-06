@@ -271,7 +271,7 @@ void Voltage::yAxisChanged(const QCPRange &newRange)
 
 void Voltage::setRng(const QCPRange &newRange)
 {
-    double factor=100;
+    double factor=125;
     if (QObject::sender()==ui->plot->xAxis)
     {
         ui->plot->xAxis2->setRange(newRange/factor);

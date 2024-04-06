@@ -23,8 +23,6 @@ public:
 
     QPair <QVector <double>,QVector <double>> V_time;
 
-    QPair <QVector <double>,QVector <double>> V_sum;
-
     void replot();
 
 private:

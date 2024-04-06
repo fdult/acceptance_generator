@@ -56,6 +56,7 @@ QMenu{
     </property>
     <addaction name="action_Voltage"/>
     <addaction name="action_parametersAcceleration"/>
+    <addaction name="action_adiabaticity"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -168,6 +169,14 @@ QMenu{
     <font>
      <pointsize>11</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="action_adiabaticity">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Адиабатичность</string>
    </property>
   </action>
  </widget>
