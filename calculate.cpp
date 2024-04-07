@@ -102,10 +102,10 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
 
     // while (freq<=6e5)
 
-    qDebug()<<t_ad<<V_adiabaticity(p,p2,0)<<V_adiabaticity(p,p2,1);
+    qDebug()<<t_ad<<V_adiabaticity(p,p2,0)<<V_adiabaticity(p,p2,1)<<e_inj(p);
 
 /////////////////
-    for (int i=0;i<diskret*max_time && freq/1e3<1250;i++)
+    for (int i=0;i<diskret*max_time && freq/1e3<600;i++)
     {
         // Voltage.first.push_back((double)i/diskret);
 
@@ -113,42 +113,45 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
         t+=100*P/v;
         freq=v/P;
 
-        tempVoltage.first.push_back(t);
+        Voltage.first.push_back(t);
 
         if (t<t_ad && freq/1e3<N)
         {
             if (VoltageAdiabaticity.second[floor(t*1e4)]<VoltageFrequency.second[floor(freq/1e3)])
             {
-                tempVoltage.second.push_back(VoltageAdiabaticity.second[floor(t*1e4)]);
+                Voltage.second.push_back(VoltageAdiabaticity.second[floor(t*1e4)]);
             }
             else
             {
-                tempVoltage.second.push_back(VoltageFrequency.second[freq/1e3]);
+                Voltage.second.push_back(VoltageFrequency.second[freq/1e3]);
             }
         }
         else
         {
             if (freq/1e3<1250)
-                tempVoltage.second.push_back(VoltageFrequency.second[freq/1e3]);
+                Voltage.second.push_back(VoltageFrequency.second[freq/1e3]);
             else
-                tempVoltage.second.push_back(10);
+                Voltage.second.push_back(10);
         }
 
         // if (Voltage.second[i]==10) qDebug()<<Voltage.first[i]<<freq/1e3;
 
-        sin_phi=setNextX(sin_phi,tempVoltage.second[i]*1e3,E,0.01,p);
+        sin_phi=setNextX(sin_phi,Voltage.second[i]*1e3,E,0.01,p);
 
-        dE=(Z/A_m)*100*tempVoltage.second[i]*1e3*sin_phi;
+        dE=(Z/A_m)*100*Voltage.second[i]*1e3*sin_phi;
         E+=dE;
+
+        // if (ceil(freq/1e3)%100==0)
+        qDebug()<<t<<freq;
     }
 /////////////////////
 
-    for (int i=0;i<1e3*2;i++)
-    {
-        Voltage.first.push_back();
+    // for (int i=0;i<1e3*2;i++)
+    // {
+    //     Voltage.first.push_back();
 
-        Voltage.second.push_back();
-    }
+    //     Voltage.second.push_back();
+    // }
 
     // qDebug()<<Voltage.second.size();
 

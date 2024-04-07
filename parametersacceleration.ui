@@ -265,7 +265,7 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>7.1e3</string>
+      <string>1e6</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
