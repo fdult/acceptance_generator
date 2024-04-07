@@ -82,7 +82,7 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
     VoltageAdiabaticity=setVoltageAdiabaticity(p,p2);
 
     int max_time=10;
-    int diskret=3e3;
+    int diskret=1e4;
     int N=VoltageFrequency.second.size();
 
     double Z=0,A_m=0,E_m=0,E=0,P=0,dE=0,freq=0,v=0,t=0,N_turn=0;
@@ -96,62 +96,59 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
     E_m=p[4];
     P=p[1];
 
-
-
     // qDebug()<<VoltageFrequency.second[200];
 
     // qDebug()<<t_ad<<VoltageAdiabaticity.second.size()<<VoltageFrequency.second.size()<<t_ad*diskret;
 
     // while (freq<=6e5)
 
-    // qDebug()<<VoltageAdiabaticity.second.size()<<floor(t_ad*1e4);
+    qDebug()<<t_ad<<V_adiabaticity(p,p2,0)<<V_adiabaticity(p,p2,1);
 
 /////////////////
-    for (int i=0;i<diskret*max_time;i++)
+    for (int i=0;i<diskret*max_time && freq/1e3<1250;i++)
     {
-        v=_CLight*sqrt(2*E_m*E+E*E)/(E_m+E);
+        // Voltage.first.push_back((double)i/diskret);
+
+        v=_CLight*sqrt(pow(E_m+E,2)-E_m*E_m)/(E_m+E);
         t+=100*P/v;
         freq=v/P;
 
-        Voltage.first.push_back((double)i/diskret);
+        tempVoltage.first.push_back(t);
 
-        if (i>=0 && t<t_ad && freq/1e3<N)
+        if (t<t_ad && freq/1e3<N)
         {
-            if (VoltageFrequency.second[freq/1e3]<VoltageAdiabaticity.second[floor(t*1e4)])
+            if (VoltageAdiabaticity.second[floor(t*1e4)]<VoltageFrequency.second[floor(freq/1e3)])
             {
-                Voltage.second.push_back(VoltageFrequency.second[freq/1e3]);
-                // qDebug()<<i<<1<<freq;
+                tempVoltage.second.push_back(VoltageAdiabaticity.second[floor(t*1e4)]);
             }
-
-            if (VoltageFrequency.second[freq/1e3]>=VoltageAdiabaticity.second[floor(t*1e4)])
+            else
             {
-                Voltage.second.push_back(VoltageAdiabaticity.second[floor(t*1e4)]);
-                // qDebug()<<i<<2<<freq;
+                tempVoltage.second.push_back(VoltageFrequency.second[freq/1e3]);
             }
-
-            // qDebug()<<freq;
-
         }
         else
         {
             if (freq/1e3<1250)
-                Voltage.second.push_back(VoltageFrequency.second[freq/1e3]);
+                tempVoltage.second.push_back(VoltageFrequency.second[freq/1e3]);
             else
-                Voltage.second.push_back(10);
-            // Voltage.second.push_back(0);
-            // qDebug()<<i<<3<<freq;
+                tempVoltage.second.push_back(10);
         }
 
-        if (Voltage.second[i]==10) qDebug()<<Voltage.first[i]<<freq/1e3;
+        // if (Voltage.second[i]==10) qDebug()<<Voltage.first[i]<<freq/1e3;
 
-        sin_phi=setNextX(sin_phi,Voltage.second[i]*1e3,E,0.01,p);
+        sin_phi=setNextX(sin_phi,tempVoltage.second[i]*1e3,E,0.01,p);
 
-        dE=(Z/A_m)*100*Voltage.second[i]*1e3*sin_phi;
+        dE=(Z/A_m)*100*tempVoltage.second[i]*1e3*sin_phi;
         E+=dE;
-
-        // qDebug()<<freq/1e3;
     }
 /////////////////////
+
+    for (int i=0;i<1e3*2;i++)
+    {
+        Voltage.first.push_back();
+
+        Voltage.second.push_back();
+    }
 
     // qDebug()<<Voltage.second.size();
 

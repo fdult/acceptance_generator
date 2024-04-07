@@ -36,7 +36,7 @@ void MainWindow::initWindow()
     connect(parametersAcceleration,&ParametersAcceleration::setParameters,this,&MainWindow::setCycleParameters);
 
     // parameters adiabaticity
-    // connect()
+    connect(adiabaticity,&Adiabaticity::setAdiabaticityParameters,this,&MainWindow::setCycleParameters);
 }
 
 void MainWindow::initPlot()
