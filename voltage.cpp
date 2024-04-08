@@ -26,7 +26,7 @@ void Voltage::init()
     {
         for (int i=1;i<=ui->tableWidget->rowCount();i++)
         {
-            ui->tableWidget->item(i-1,2)->setText(QString::number(100));
+            ui->tableWidget->item(i,2)->setText(QString::number(100));
         }
 
         setVolatge();
@@ -44,6 +44,8 @@ void Voltage::init()
     ui->tableWidget->item(4,0)->setText(QString::number(9.2));
     ui->tableWidget->item(5,0)->setText(QString::number(10));
 
+
+
     for (int i=1;i<=ui->tableWidget->rowCount();i++)
     {
         ui->tableWidget->item(i-1,0)->setTextAlignment(Qt::AlignCenter);
@@ -55,9 +57,11 @@ void Voltage::init()
 
         ui->tableWidget->item(i-1,2)->setText(QString::number(100));
 
-        ui->tableWidget->item(i-1,3)->setText(QString::number(ui->tableWidget->item(i-1,0)->text().toDouble()
-                                                                *ui->tableWidget->item(i-1,2)->text().toDouble()/100));
+        ui->tableWidget->item(i-1,3)->setText(QString::number(ui->tableWidget->item(i-1,0)->text().toDouble()*
+                                                                ui->tableWidget->item(i-1,2)->text().toDouble()/100));
     }
+
+    ui->tableWidget->item(0,2)->setText("-");
 
     connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
 }
@@ -143,7 +147,7 @@ void Voltage::initPlot()
     ui->plot->yAxis->setTickLabelFont(pfont);
 
     ui->plot->xAxis->setRange(-15,1.3e3);
-    ui->plot->xAxis2->setRange(-0.15,13);
+    ui->plot->xAxis2->setRange(-15./125,1.3e3/125);
     ui->plot->yAxis->setRange(-0.4,10.4);
 
     ui->plot->xAxis2->setVisible(true);
@@ -173,10 +177,21 @@ void Voltage::initPlot()
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    ui->plot->graph(0)->setName("Напряжение (частота ВЧ)");
 
     ui->plot->addGraph(ui->plot->xAxis2,ui->plot->yAxis);
     ui->plot->graph(1)->setPen(QPen(Qt::red));
     ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    ui->plot->graph(1)->setName("Напряжение (время)");
+
+    ui->plot->legend->setVisible(true);
+
+    ui->plot->legend->setVisible(true);
+    QFont legendFont=font();
+    legendFont.setPointSize(11);
+    ui->plot->legend->setFont(legendFont);
+    ui->plot->legend->setBrush(QBrush(QColor(255,255,255,230)));
+    ui->plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignCenter | Qt::AlignRight);
 
     connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(setRng(QCPRange)));
     connect(ui->plot->xAxis2,SIGNAL(rangeChanged(QCPRange)),this,SLOT(setRng(QCPRange)));
@@ -237,9 +252,9 @@ void Voltage::changeItem(int row,int col)
 
 void Voltage::replot()
 {
-    ui->plot->xAxis->setRange(-15,1.3e3);
-    ui->plot->xAxis2->setRange(-0.15,13);
-    ui->plot->yAxis->setRange(-0.4,10.4);
+    // ui->plot->xAxis->setRange(-15,1.3e3);
+    // ui->plot->xAxis2->setRange(-0.15,13);
+    // ui->plot->yAxis->setRange(-0.4,10.4);
 
     ui->plot->graph(0)->setData(V_interpol.first,V_interpol.second);
     ui->plot->graph(1)->setData(V_time.first,V_time.second);

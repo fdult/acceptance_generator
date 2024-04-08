@@ -65,30 +65,27 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageAdiabaticity(QVec
         double v_temp=0;
         voltageTime.first.push_back((double)i/diskret);
         v_temp=V_0/pow(1-(1-sqrt(V_0/V_1))*voltageTime.first[i]/t_ad,2);
-        // qDebug()<<voltageTime.first[i]<<v_temp;
         voltageTime.second.push_back(v_temp/1000);
     }
     return voltageTime;
 }
 
-QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,QVector <double> &p,QVector <double> &p2)
+QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
+                                                                  QVector <double> &p,QVector <double> &p2)
 {
     QPair <QVector <double>,QVector <double>> Voltage;
     QPair <QVector <double>,QVector <double>> tempVoltage;
     QPair <QVector <double>,QVector <double>> VoltageAdiabaticity;
-    double t_ad=0;
+
+    int max_time=30,diskret=1e3;
+
+    double t_ad=0,Z=0,A_m=0,E_m=0,E=0,P=0,dE=0,freq=0,v=0,t=0,sin_phi=0,epsilon=0;
+
+    double helpFreq=0;
 
     t_ad=t_adiabaticity(p,p2);
     VoltageAdiabaticity=setVoltageAdiabaticity(p,p2);
-
-    int max_time=10;
-    int diskret=1e4;
-    int N=VoltageFrequency.second.size();
-
-    double Z=0,A_m=0,E_m=0,E=0,P=0,dE=0,freq=0,v=0,t=0,N_turn=0;
-    double sin_phi=0;
-
-    N_turn=1000;
+    epsilon=p2[3];
 
     Z=p[3];
     A_m=p[2];
@@ -96,26 +93,16 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
     E_m=p[4];
     P=p[1];
 
-    // qDebug()<<VoltageFrequency.second[200];
-
-    // qDebug()<<t_ad<<VoltageAdiabaticity.second.size()<<VoltageFrequency.second.size()<<t_ad*diskret;
-
-    // while (freq<=6e5)
-
-    qDebug()<<t_ad<<V_adiabaticity(p,p2,0)<<V_adiabaticity(p,p2,1)<<e_inj(p);
-
 /////////////////
-    for (int i=0;i<diskret*max_time && freq/1e3<600;i++)
+    for (int i=0;i<diskret*max_time;i++)
     {
-        // Voltage.first.push_back((double)i/diskret);
-
         v=_CLight*sqrt(pow(E_m+E,2)-E_m*E_m)/(E_m+E);
         t+=100*P/v;
         freq=v/P;
 
         Voltage.first.push_back(t);
 
-        if (t<t_ad && freq/1e3<N)
+        if (t<t_ad)
         {
             if (VoltageAdiabaticity.second[floor(t*1e4)]<VoltageFrequency.second[floor(freq/1e3)])
             {
@@ -129,36 +116,45 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
         else
         {
             if (freq/1e3<1250)
+            {
                 Voltage.second.push_back(VoltageFrequency.second[freq/1e3]);
-            else
-                Voltage.second.push_back(10);
+                helpFreq=VoltageFrequency.second[freq/1e3];
+            }
+            else if (t<diskret*max_time)
+            {
+                Voltage.second.push_back(helpFreq);
+            }
         }
 
-        // if (Voltage.second[i]==10) qDebug()<<Voltage.first[i]<<freq/1e3;
-
-        sin_phi=setNextX(sin_phi,Voltage.second[i]*1e3,E,0.01,p);
+        sin_phi=setNextX(sin_phi,Voltage.second[i]*1e3,E,epsilon,p);
 
         dE=(Z/A_m)*100*Voltage.second[i]*1e3*sin_phi;
         E+=dE;
-
-        // if (ceil(freq/1e3)%100==0)
-        qDebug()<<t<<freq;
     }
+
+    double temp=0;
+    temp=t;
+
+    while (temp<10)
+    {
+        temp+=1./1e3;
+        Voltage.second.push_back(helpFreq);
+        Voltage.first.push_back(temp);
+    }
+
 /////////////////////
-
-    // for (int i=0;i<1e3*2;i++)
-    // {
-    //     Voltage.first.push_back();
-
-    //     Voltage.second.push_back();
-    // }
-
-    // qDebug()<<Voltage.second.size();
 
     VoltageAdiabaticity.first.clear();
     VoltageAdiabaticity.second.clear();
 
     return Voltage;
+}
+
+QPair <QVector <double>,QVector <double>> Calculate::setBField(QVector <double> &p,QVector <double> &p2)
+{
+    QPair <QVector <double>,QVector <double>> BField;
+
+    return BField;
 }
 
 double Calculate::B_inj(QVector <double> &p)
@@ -182,7 +178,6 @@ double Calculate::e_inj(QVector <double> &p)
     double dp=0;
     beta=Velocity_inj(p)/_CLight;
     dp=p[7]/(beta*beta*(p[4]+p[6]));
-    qDebug()<<"Beta ="<<beta<<", dp ="<<dp;
 
     return 2*p[1]*dp*sqrt(2*p[6]*p[4]+p[6]*p[6])/_CLight;
 }
@@ -247,7 +242,7 @@ double Calculate::setNextX(double x,double V,double E,double y,QVector <double> 
     return x;
 }
 
-double Calculate::function(double sin_phi, double V, double E, QVector <double> &p)
+double Calculate::function(double sin_phi,double V,double E,QVector <double> &p)
 {
     return ((1-sin_phi)/pow(1+sin_phi/2,2)) * (8*p[4]*p[1]*sqrt(p[3]*V*(p[4]+E+((double)p[3]/p[2])*100*V*sin_phi)/p[4])) /
             (M_PI*_CLight*sqrt(2*M_PI*p[2]*p[4]*p[5]*(1./pow((p[4]+E+((double)p[3]/p[2])*100*1000*sin_phi) / p[4] ,2)-1./100)));

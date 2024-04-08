@@ -167,7 +167,7 @@
        <string/>
       </property>
       <property name="flags">
-       <set>ItemIsSelectable|ItemIsEditable|ItemIsUserCheckable|ItemIsEnabled</set>
+       <set>ItemIsSelectable|ItemIsEnabled</set>
       </property>
      </item>
      <item row="0" column="3">

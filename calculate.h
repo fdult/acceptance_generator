@@ -15,7 +15,10 @@ public:
 
     QPair <QVector <double>,QVector<double>> setVoltageFrequency(QPair <QVector <double>, QVector <double>> Voltage);
     QPair <QVector <double>,QVector<double>> setVoltageAdiabaticity(QVector<double> &p, QVector<double> &p2);
-    QPair <QVector <double>,QVector<double>> setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,QVector <double> &p,QVector <double> &p2);
+    QPair <QVector <double>,QVector<double>> setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
+                                                           QVector <double> &p,QVector <double> &p2);
+    QPair <QVector <double>,QVector<double>> setBField(QVector<double> &p, QVector<double> &p2);
+
 
     double B_inj(QVector <double> &p);
     double B_0(QVector <double> &p);
