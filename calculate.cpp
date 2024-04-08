@@ -150,11 +150,55 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageTime(QPair <QVect
     return Voltage;
 }
 
-QPair <QVector <double>,QVector <double>> Calculate::setBField(QVector <double> &p,QVector <double> &p2)
+QPair <QVector <double>,QVector <double>> Calculate::setBField(QPair <QVector <double>,QVector <double>> &Energy,QVector <double> &p)
 {
     QPair <QVector <double>,QVector <double>> BField;
 
+    int N=Energy.first.size();
+    double Btemp=0,Z=0,A_m=0,E_m=0,p_bs=0;
+
+    Z=p[3];
+    A_m=p[2];
+    E_m=p[4];
+    p_bs=p[0];
+
+    for (int i=0;i<N;i++)
+    {
+        Btemp=(A_m/Z)*sqrt((2*E_m*Energy.second[i]+Energy.second[i])/pow(p_bs*_CLight,2));
+
+        BField.first.push_back(Energy.first[i]);
+        BField.second.push_back(Btemp*1e5);
+    }
+
     return BField;
+}
+
+QPair <QVector<double>,QVector<double>> Calculate::setEnergy(QPair <QVector <double>,QVector <double>> &Voltage,QVector <double> &p,
+                                                             QVector <double> &p2)
+{
+    QPair <QVector <double>,QVector  <double>> Energy;
+
+    int N=Voltage.first.size();
+
+    double Z=0,A_m=0,E=0,dE=0,sin_phi=0,epsilon=0;
+
+    epsilon=p2[3];
+    Z=p[3];
+    A_m=p[2];
+    E=p[6];
+
+    for (int i=0;i<N;i++)
+    {
+        Energy.first.push_back(Voltage.first[i]);
+        Energy.second.push_back(E/1e9);
+
+        sin_phi=setNextX(sin_phi,Voltage.second[i]*1e3,E,epsilon,p);
+
+        dE=(Z/A_m)*100*Voltage.second[i]*1e3*sin_phi;
+        E+=dE;
+    }
+
+    return Energy;
 }
 
 double Calculate::B_inj(QVector <double> &p)
@@ -177,7 +221,7 @@ double Calculate::e_inj(QVector <double> &p)
     double beta=0;
     double dp=0;
     beta=Velocity_inj(p)/_CLight;
-    dp=p[7]/(beta*beta*(p[4]+p[6]));
+    dp=p[7]/(beta*beta*(p[2]*(p[4]+p[6])));
 
     return 2*p[1]*dp*sqrt(2*p[6]*p[4]+p[6]*p[6])/_CLight;
 }
@@ -193,7 +237,7 @@ double Calculate::V_adiabaticity(QVector <double> &p,QVector <double> &p2,int nu
 
     gamma=(p[4]+p[6])/p[4];
     eta=1./(gamma*gamma)-1./100;
-    dE=1e6;
+    dE=p[7];
     beta=Velocity_inj(p)/_CLight;
 
     if (numV==0)
@@ -229,16 +273,19 @@ double Calculate::freqrequency(QVector <double> &p)
 double Calculate::derivative(double x,double V,double E,QVector <double> &p)
 {
     double h=1e-6;
+
     return (function(x+h,V,E,p)-function(x-h,V,E,p))/(2*h);
 }
 
 double Calculate::setNextX(double x,double V,double E,double y,QVector <double> &p)
 {
     double eps=1e-9;
+
     while (abs(function(x,V,E,p)-y)>eps)
     {
         x=x-(function(x,V,E,p)-y)/derivative(x,V,E,p);
     }
+
     return x;
 }
 

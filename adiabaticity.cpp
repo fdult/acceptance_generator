@@ -5,6 +5,8 @@ Adiabaticity::Adiabaticity(QWidget *parent) : QDialog(parent), ui(new Ui::Adiaba
 {
     ui->setupUi(this);
 
+    setWindowTitle("Параметры адиабатичности");
+
     connect(ui->pushButton,&QPushButton::clicked,this,&Adiabaticity::set);
 
     set();

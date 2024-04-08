@@ -17,12 +17,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::initWindow()
 {
+    setWindowTitle("Расчет магнитного поля");
+
     setWindowIcon(QIcon(":/icons/1.ico"));
 
     voltage=new Voltage(this);
     calculate=new Calculate();
     parametersAcceleration=new ParametersAcceleration(this);
     adiabaticity=new Adiabaticity(this);
+
+    // check graphs
+    connect(ui->action_E,&QAction::changed,this,&MainWindow::replot);
+    connect(ui->action_B,&QAction::changed,this,&MainWindow::replot);
 
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
@@ -90,18 +96,18 @@ void MainWindow::initPlot()
     ui->plot->xAxis->setTickLabelFont(pfont);
     ui->plot->yAxis->setTickLabelFont(pfont);
 
-    ui->plot->xAxis->setRange(-200,10.2e3);
-    ui->plot->yAxis->setRange(-0.1,10.4);
+    ui->plot->xAxis->setRange(-0.15,10.2);
+    ui->plot->yAxis->setRange(-0.1,15.4);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(0)->setName("Напряжение");
+    ui->plot->graph(0)->setName("Энергия, ГэВ/нукон");
 
-    // ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    // ui->plot->graph(1)->setPen(QPen(Qt::red));
-    // ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    // ui->plot->graph(1)->setName("Интреполяция");
+    ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
+    ui->plot->graph(1)->setPen(QPen(Qt::red));
+    ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    ui->plot->graph(1)->setName("Магнитное поле, Тл");
 
     ui->plot->legend->setVisible(true);
 
@@ -114,34 +120,34 @@ void MainWindow::setCycleParameters()
 
     // Voltage
     voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
-
     voltage->V_time=calculate->setVoltageTime(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters);
 
-    // points.V=calculate->setVoltageAdiabaticity(parametersAcceleration->parameters,adiabaticity->p);
-
-
+    // Energy
+    points.E=calculate->setEnergy(voltage->V_time,parametersAcceleration->parameters,adiabaticity->parameters);
 
     // B field
+    points.B=calculate->setBField(points.E,parametersAcceleration->parameters);
 
     // dB
 
-    // frequency
+    // Frequency
 
-    // Energy
+
+
 
     // Acceptance
 
 
 
-    // qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
-    // qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
-    // qDebug()<<"Частота инжекции, Гц ="<<calculate->f_inj(parametersAcceleration->parameters);
-    // qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
-    // qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
-    // qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
-    // qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
-    // qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
-    // qDebug()<<"======================================";
+    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
+    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
+    qDebug()<<"Частота инжекции, кГц ="<<calculate->f_inj(parametersAcceleration->parameters)/1e3;
+    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
+    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
+    qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
+    qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
+    qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
+    qDebug()<<"======================================";
 
     voltage->replot();
     replot();
@@ -171,7 +177,15 @@ void MainWindow::clearPoints()
 
 void MainWindow::replot()
 {
-    ui->plot->graph(0)->setData(points.V.first,points.V.second);
+    if (ui->action_E->isChecked())
+        ui->plot->graph(0)->setData(points.E.first,points.E.second);
+    else if (!ui->action_E->isChecked())
+        ui->plot->graph(0)->data()->clear();
+
+    if (ui->action_B->isChecked())
+        ui->plot->graph(1)->setData(points.B.first,points.B.second);
+    else if (!ui->action_B->isChecked())
+        ui->plot->graph(1)->data()->clear();
 
     ui->plot->replot();
     ui->plot->update();
@@ -180,14 +194,14 @@ void MainWindow::replot()
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-200,10.2e3);
+    QCPRange limitRange(-0.15,10.2);
     limitAxisRange(axis,newRange,limitRange);
 }
 
 void MainWindow::yAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.1,10.4);
+    QCPRange limitRange(-0.1,15.4);
     limitAxisRange(axis,newRange,limitRange);
 }
 

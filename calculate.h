@@ -14,18 +14,22 @@ public:
     explicit Calculate(QObject *parent=nullptr);
 
     QPair <QVector <double>,QVector<double>> setVoltageFrequency(QPair <QVector <double>, QVector <double>> Voltage);
-    QPair <QVector <double>,QVector<double>> setVoltageAdiabaticity(QVector<double> &p, QVector<double> &p2);
+    QPair <QVector <double>,QVector<double>> setVoltageAdiabaticity(QVector <double> &p,QVector <double> &p2);
+
     QPair <QVector <double>,QVector<double>> setVoltageTime(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
                                                            QVector <double> &p,QVector <double> &p2);
-    QPair <QVector <double>,QVector<double>> setBField(QVector<double> &p, QVector<double> &p2);
 
+    QPair <QVector <double>,QVector<double>> setBField(QPair <QVector <double>,QVector <double>> &Energy, QVector <double> &p);
+
+    QPair <QVector <double>,QVector<double>> setEnergy(QPair <QVector <double>,QVector <double>> &Voltage,QVector <double> &p,
+                                                      QVector<double> &p2);
 
     double B_inj(QVector <double> &p);
     double B_0(QVector <double> &p);
     double f_inj(QVector <double> &p);
     double e_inj(QVector <double> &p);
     double Velocity_inj(QVector <double> &p);
-    double V_adiabaticity(QVector <double> &p, QVector <double> &p2, int numV);
+    double V_adiabaticity(QVector <double> &p,QVector <double> &p2,int numV);
     double E_total(QVector <double> &p);
     double t_adiabaticity(QVector <double> &p,QVector <double> &p2);
     double freqrequency(QVector <double> &p);
@@ -35,6 +39,7 @@ public:
     double setNextX(double x,double V,double E,double y,QVector <double> &p);
     double function(double sin_phi,double V,double E,QVector <double> &p);
     ///////////////////////////////////
+
 };
 
 #endif // CALCULATE_H

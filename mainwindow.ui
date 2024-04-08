@@ -66,7 +66,6 @@ QMenu{
     <addaction name="action_E"/>
     <addaction name="action_dB"/>
     <addaction name="action_f"/>
-    <addaction name="action_acc"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
