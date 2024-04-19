@@ -37,7 +37,7 @@ void Voltage::init()
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);
 
-    ui->tableWidget->item(0,0)->setText(QString::number(0));
+    ui->tableWidget->item(0,0)->setText(QString::number(4));
     ui->tableWidget->item(1,0)->setText(QString::number(5));
     ui->tableWidget->item(2,0)->setText(QString::number(7.6));
     ui->tableWidget->item(3,0)->setText(QString::number(8.6));
@@ -55,13 +55,13 @@ void Voltage::init()
 
         ui->tableWidget->item(i-1,1)->setText(QString::number(i*100));
 
-        ui->tableWidget->item(i-1,2)->setText(QString::number(100));
+        ui->tableWidget->item(i-1,2)->setText(QString::number(80));
 
         ui->tableWidget->item(i-1,3)->setText(QString::number(ui->tableWidget->item(i-1,0)->text().toDouble()*
                                                                 ui->tableWidget->item(i-1,2)->text().toDouble()/100));
     }
 
-    ui->tableWidget->item(0,2)->setText("-");
+    // ui->tableWidget->item(0,2)->setText("-");
 
     connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
 }
@@ -177,12 +177,12 @@ void Voltage::initPlot()
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::green));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(0)->setName("Напряжение (частота ВЧ)");
+    ui->plot->graph(0)->setName("V_rf (freq)");
 
     ui->plot->addGraph(ui->plot->xAxis2,ui->plot->yAxis);
     ui->plot->graph(1)->setPen(QPen(Qt::red));
     ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(1)->setName("Напряжение (время)");
+    ui->plot->graph(1)->setName("V_rf (t)");
 
     ui->plot->legend->setVisible(true);
 

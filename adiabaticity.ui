@@ -6,48 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>231</height>
+    <width>185</width>
+    <height>148</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="4">
-    <widget class="QLabel" name="label_5">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Коэффициенты сохранения фазового пространства</string>
-     </property>
-     <property name="scaledContents">
-      <bool>false</bool>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="5">
-    <widget class="QLabel" name="label_6">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Коэффициент адиабатичности</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
+   <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
@@ -55,53 +22,29 @@
       </font>
      </property>
      <property name="text">
-      <string>F_0</string>
+      <string>t_ad, с</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="0" column="1">
     <widget class="QLineEdit" name="lineEdit">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
-     <property name="text">
-      <string>4</string>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="text">
+      <string>0.01</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="label_3">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>μ</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="5">
-    <widget class="QLineEdit" name="lineEdit_3">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>400</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
+   <item row="1" column="0">
     <widget class="QLabel" name="label_2">
      <property name="font">
       <font>
@@ -109,52 +52,15 @@
       </font>
      </property>
      <property name="text">
-      <string>F_1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLineEdit" name="lineEdit_2">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>8</string>
+      <string>Акцептанс</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>ε</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" colspan="2">
-    <widget class="QLineEdit" name="lineEdit_4">
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="lineEdit_2">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -163,12 +69,36 @@
      <property name="text">
       <string>0.12</string>
      </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>V_inj, В</string>
+     </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="5" column="6">
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="lineEdit_3">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>200</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
     <widget class="QPushButton" name="pushButton">
      <property name="font">
       <font>
@@ -177,13 +107,6 @@
      </property>
      <property name="text">
       <string>Применить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="7">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

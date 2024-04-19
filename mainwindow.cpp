@@ -100,12 +100,12 @@ void MainWindow::initPlot()
     ui->plot->yAxis->setRange(-0.1,15.4);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(0)->setPen(QPen(Qt::green));
+    ui->plot->graph(0)->setPen(QPen(Qt::blue));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
     ui->plot->graph(0)->setName("Энергия, ГэВ/нукон");
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(1)->setPen(QPen(Qt::red));
+    ui->plot->graph(1)->setPen(QPen(Qt::yellow));
     ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
     ui->plot->graph(1)->setName("Магнитное поле, Тл");
 
@@ -123,31 +123,31 @@ void MainWindow::setCycleParameters()
     voltage->V_time=calculate->setVoltageTime(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters);
 
     // Energy
-    points.E=calculate->setEnergy(voltage->V_time,parametersAcceleration->parameters,adiabaticity->parameters);
+    // points.E=calculate->setEnergy(voltage->V_time,parametersAcceleration->parameters,adiabaticity->parameters);
 
     // B field
-    points.B=calculate->setBField(points.E,parametersAcceleration->parameters);
+    // points.B=calculate->setBField(points.E,parametersAcceleration->parameters);
 
     // dB
 
     // Frequency
 
 
-
+    // qDebug()<<"jhfgjhgfj ="<<calculate->findNextX(0,00,1.00341,0.983212,0.12,parametersAcceleration->parameters);
 
     // Acceptance
 
 
 
-    qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
-    qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
-    qDebug()<<"Частота инжекции, кГц ="<<calculate->f_inj(parametersAcceleration->parameters)/1e3;
-    qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
-    qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
-    qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
-    qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
-    qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
-    qDebug()<<"======================================";
+    // qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
+    // qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
+    // qDebug()<<"Частота инжекции, кГц ="<<calculate->f_inj(parametersAcceleration->parameters)/1e3;
+    // qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
+    // qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
+    // qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
+    // qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
+    // qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
+    // qDebug()<<"======================================";
 
     voltage->replot();
     replot();
