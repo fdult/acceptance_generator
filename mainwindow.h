@@ -16,13 +16,8 @@ namespace Ui
 QT_END_NAMESPACE
 
 struct points
-{    //               x                y
-    QPair <QVector <double>,QVector <double>> V;
-    QPair <QVector <double>,QVector <double>> B;
-    QPair <QVector <double>,QVector <double>> dB;
-    QPair <QVector <double>,QVector <double>> f;
-    QPair <QVector <double>,QVector <double>> E;
-    QPair <QVector <double>,QVector <double>> Acceptance;
+{
+    QVector <double> Energy,BField,dBField,phase,time;
 };
 
 class MainWindow : public QMainWindow

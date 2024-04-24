@@ -24,7 +24,7 @@ void Voltage::init()
     connect(ui->pushButton,&QPushButton::clicked,this,&Voltage::setVolatge);
     connect(ui->btn_refresh,&QPushButton::clicked,this,[=]()
     {
-        for (int i=1;i<=ui->tableWidget->rowCount();i++)
+        for (int i=0;i<ui->tableWidget->rowCount();i++)
         {
             ui->tableWidget->item(i,2)->setText(QString::number(100));
         }
@@ -46,19 +46,19 @@ void Voltage::init()
 
 
 
-    for (int i=1;i<=ui->tableWidget->rowCount();i++)
+    for (int i=0;i<ui->tableWidget->rowCount();i++)
     {
-        ui->tableWidget->item(i-1,0)->setTextAlignment(Qt::AlignCenter);
-        ui->tableWidget->item(i-1,1)->setTextAlignment(Qt::AlignCenter);
-        ui->tableWidget->item(i-1,2)->setTextAlignment(Qt::AlignCenter);
-        ui->tableWidget->item(i-1,3)->setTextAlignment(Qt::AlignCenter);
+        ui->tableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
+        ui->tableWidget->item(i,1)->setTextAlignment(Qt::AlignCenter);
+        ui->tableWidget->item(i,2)->setTextAlignment(Qt::AlignCenter);
+        ui->tableWidget->item(i,3)->setTextAlignment(Qt::AlignCenter);
 
-        ui->tableWidget->item(i-1,1)->setText(QString::number(i*100));
+        ui->tableWidget->item(i,1)->setText(QString::number((i+1)*100));
 
-        ui->tableWidget->item(i-1,2)->setText(QString::number(80));
+        ui->tableWidget->item(i,2)->setText(QString::number(80));
 
-        ui->tableWidget->item(i-1,3)->setText(QString::number(ui->tableWidget->item(i-1,0)->text().toDouble()*
-                                                                ui->tableWidget->item(i-1,2)->text().toDouble()/100));
+        ui->tableWidget->item(i,3)->setText(QString::number(ui->tableWidget->item(i,0)->text().toDouble()*
+                                                                ui->tableWidget->item(i,2)->text().toDouble()/100));
     }
 
     // ui->tableWidget->item(0,2)->setText("-");
@@ -219,8 +219,6 @@ void Voltage::setVolatge()
     }
 
     emit setVoltageSignal();
-
-    replot();
 }
 
 void Voltage::changeItem(int row,int col)

@@ -44,11 +44,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-# win32: LIBS += -lC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gsl
-win32: LIBS += -LC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin -lgsl
+# LIBS += -L"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin/gsl"
+# LIBS += -l"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gsl"
+# LIBS += -l"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gslcblas"
+
+
+LIBS += -LC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin -lgsl
 
 INCLUDEPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
 DEPENDPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
+
+
+
 
 RESOURCES += \
     resource.qrc

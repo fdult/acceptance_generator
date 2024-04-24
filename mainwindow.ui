@@ -65,7 +65,7 @@ QMenu{
     <addaction name="action_B"/>
     <addaction name="action_E"/>
     <addaction name="action_dB"/>
-    <addaction name="action_f"/>
+    <addaction name="action_phase"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -138,7 +138,7 @@ QMenu{
     </font>
    </property>
   </action>
-  <action name="action_f">
+  <action name="action_phase">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -146,7 +146,7 @@ QMenu{
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Частота обращения</string>
+    <string>Фаза</string>
    </property>
    <property name="font">
     <font>
