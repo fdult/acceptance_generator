@@ -15,7 +15,7 @@
 __BEGIN_DECLS
 
 
-#define GSL_VERSION "2.7"
+#define GSL_VERSION "2.7.1"
 #define GSL_MAJOR_VERSION 2
 #define GSL_MINOR_VERSION 7
 

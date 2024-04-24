@@ -19,6 +19,7 @@
 
 #ifndef __GSL_MATH_H__
 #define __GSL_MATH_H__
+#include <math.h>
 #include <gsl/gsl_sys.h>
 #include <gsl/gsl_inline.h>
 #include <gsl/gsl_machine.h>

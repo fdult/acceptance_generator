@@ -43,19 +43,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-
-# LIBS += -L"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin/gsl"
-# LIBS += -l"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gsl"
-# LIBS += -l"C:/Users/qwerty/Documents/gsl_2.7/gsl_bin/lib/gslcblas"
-
-
-LIBS += -LC:/Users/qwerty/Documents/gsl_2.7/gsl_bin/bin -lgsl
-
-INCLUDEPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
-DEPENDPATH += C:/Users/qwerty/Documents/gsl_2.7/gsl_src/include/gsl
-
-
-
-
 RESOURCES += \
     resource.qrc
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
+
+INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include

@@ -4,8 +4,8 @@
 #define _CLight 299792458
 
 #include <QtCore>
-#include <gsl/interpolation/gsl_spline.h>
-#include <gsl/interpolation/gsl_interp.h>
+#include <gsl/gsl_spline.h>
+#include <gsl/gsl_interp.h>
 
 
 class Calculate

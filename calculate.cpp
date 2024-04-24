@@ -1,5 +1,4 @@
 #include "calculate.h"
-#include "qdebug.h"
 #include <cmath>
 
 Calculate::Calculate()
