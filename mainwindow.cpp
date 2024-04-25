@@ -50,8 +50,8 @@ void MainWindow::initWindow()
 void MainWindow::initPlot()
 {
     // plot
-    // connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
-    // connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
+    connect(ui->plot->xAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(xAxisChanged(QCPRange)));
+    connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
 
     /////////////////////////////////////////
     /// Dark mode
@@ -124,7 +124,7 @@ void MainWindow::initPlot()
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(4)->setPen(QPen(Qt::cyan));
     ui->plot->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(4)->setName("no name");
+    ui->plot->graph(4)->setName("Частота");
 
     ui->plot->legend->setVisible(true);
 

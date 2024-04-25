@@ -46,7 +46,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resource.qrc
 
-
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
 

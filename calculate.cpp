@@ -106,7 +106,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             B=(A_m/Z)*sqrt((2*E_m*E+E*E)/pow(r*_CLight,2));
 
             time.push_back(t);
-            Voltage.push_back(V_rf*sin_phi/0.3718);
+            Voltage.push_back(V_rf);
             Energy.push_back(E/1e9);
             BField.push_back(B);
             dBField.push_back(dB);
@@ -136,7 +136,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             B=(A_m/Z)*sqrt((2*E_m*E+E*E)/pow(r*_CLight,2));
 
             time.push_back(t);
-            Voltage.push_back(V_rf*sin_phi/0.3718);
+            Voltage.push_back(V_rf);
             Energy.push_back(E/1e9);
             BField.push_back(B);
             dBField.push_back(dB);
@@ -163,7 +163,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             dB=V_rf*1e3*sin_phi/(r*P);
 
             time.push_back(t);
-            Voltage.push_back(V_rf*sin_phi/0.3718);
+            Voltage.push_back(V_rf);
             Energy.push_back(E/1e9);
             BField.push_back(B);
             dBField.push_back(dB);
@@ -193,7 +193,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             dB=V_rf*1e3*sin_phi/(r*P);
 
             time.push_back(t);
-            Voltage.push_back(V_rf*sin_phi/0.3718);
+            Voltage.push_back(V_rf);
             Energy.push_back(E/1e9);
             BField.push_back(B);
             dBField.push_back(dB);
