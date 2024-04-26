@@ -20,6 +20,7 @@ SOURCES += \
     mainwindow.cpp \
     parametersacceleration.cpp \
     qcustomplot.cpp \
+    userparameters.cpp \
     voltage.cpp
 
 HEADERS += \
@@ -28,12 +29,14 @@ HEADERS += \
     mainwindow.h \
     parametersacceleration.h \
     qcustomplot.h \
+    userparameters.h \
     voltage.h
 
 FORMS += \
     adiabaticity.ui \
     mainwindow.ui \
     parametersacceleration.ui \
+    userparameters.ui \
     voltage.ui
 
 RC_ICONS = icons/icon_app.ico
@@ -46,8 +49,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resource.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
 
-INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
-DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+
+INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl

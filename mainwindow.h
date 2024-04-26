@@ -7,6 +7,7 @@
 #include <calculate.h>
 #include <parametersacceleration.h>
 #include <adiabaticity.h>
+#include <userparameters.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -17,7 +18,7 @@ QT_END_NAMESPACE
 
 struct points
 {
-    QVector <double> Energy,BField,dBField,phase,time;
+    QVector <double> Energy,BField,dBField,phase,freq,time;
 };
 
 class MainWindow : public QMainWindow
@@ -35,6 +36,7 @@ private:
     Calculate *calculate;
     ParametersAcceleration *parametersAcceleration;
     Adiabaticity *adiabaticity;
+    UserParameters *userParameters;
 
     points points;
 

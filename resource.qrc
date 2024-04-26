@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/icons">
         <file>icons/refresh.png</file>
+        <file>icons/right-arrows.png</file>
+        <file>icons/arrows.png</file>
     </qresource>
 </RCC>

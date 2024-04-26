@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>318</height>
+    <height>304</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -17,78 +17,27 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_6">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Радиус поворота частицы в магнитах, м</string>
+      <string>Кратность ускорения</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_7">
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_5">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Энергия инжекции, эВ</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLineEdit" name="lineEdit_7">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="text">
-      <string>3.2e6</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QPushButton" name="pushButton">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>Применить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLineEdit" name="lineEdit_6">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="text">
-      <string>1</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>Масса покоя протона, эВ</string>
      </property>
     </widget>
    </item>
@@ -110,61 +59,26 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_8">
+   <item row="11" column="0" colspan="2">
+    <widget class="Line" name="line_6">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Разброс по энергии dE</string>
+      <string>Радиус поворота частицы в магнитах, м</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEdit_2">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="text">
-      <string>210.96</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Массовое число, а.е.м.</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Заряд</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
+   <item row="8" column="1">
     <widget class="QLineEdit" name="lineEdit_5">
      <property name="font">
       <font>
@@ -182,20 +96,34 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_6">
+   <item row="3" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="Line" name="line_5">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Кратность ускорения</string>
+      <string>Массовое число, а.е.м.</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_3">
+   <item row="12" column="1">
+    <widget class="QPushButton" name="pushButton">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -205,26 +133,30 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>124</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>Применить</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="1" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_4">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Периметр ускорителя, м</string>
+      <string>Заряд</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="6" column="1">
     <widget class="QLineEdit" name="lineEdit_4">
      <property name="font">
       <font>
@@ -242,20 +174,8 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Масса покоя протона, эВ</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="lineEdit_8">
+   <item row="10" column="1">
+    <widget class="QLineEdit" name="lineEdit_6">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -265,10 +185,72 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>1e6</string>
+      <string>1</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="lineEdit_2">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="text">
+      <string>210.96</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Периметр ускорителя, м</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="lineEdit_3">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="text">
+      <string>124</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

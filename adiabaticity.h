@@ -3,7 +3,10 @@
 
 #include <QDialog>
 
-namespace Ui { class Adiabaticity; }
+namespace Ui
+{
+    class Adiabaticity;
+}
 
 class Adiabaticity : public QDialog
 {

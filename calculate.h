@@ -7,21 +7,21 @@
 #include <gsl/gsl_spline.h>
 #include <gsl/gsl_interp.h>
 
-
 class Calculate
 {
 
 public:
     Calculate();
 
-    QVector <double> Energy,BField,dBField,Voltage,phase,time,temp;
+    QVector <double> Energy,BField,dBField,Voltage,phase,freq,time;
 
     QPair <QVector <double>,QVector<double>> setVoltageFrequency(QPair <QVector <double>, QVector <double>> Voltage);
 
     void setFullPeriod(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
-                                                           QVector <double> &p,QVector <double> &p2);
+                                                           QVector <double> &p,QVector <double> &p2,QVector <double> &p3);
 
     double B_inj(QVector <double> &p);
+    double E_inj(QVector <double> &p);
     double B_0(QVector <double> &p);
     double f_inj(QVector <double> &p);
     double E_total(QVector <double> &p);

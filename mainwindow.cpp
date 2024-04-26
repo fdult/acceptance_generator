@@ -25,12 +25,16 @@ void MainWindow::initWindow()
     calculate=new Calculate();
     parametersAcceleration=new ParametersAcceleration(this);
     adiabaticity=new Adiabaticity(this);
+    userParameters=new UserParameters(this);
 
     // check graphs
     connect(ui->action_E,&QAction::changed,this,&MainWindow::replot);
     connect(ui->action_B,&QAction::changed,this,&MainWindow::replot);
     connect(ui->action_dB,&QAction::changed,this,&MainWindow::replot);
     connect(ui->action_phase,&QAction::changed,this,&MainWindow::replot);
+    connect(ui->action_freq,&QAction::changed,this,&MainWindow::replot);
+    connect(ui->action_Vrf,&QAction::changed,this,&MainWindow::replot);
+
 
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
@@ -98,16 +102,16 @@ void MainWindow::initPlot()
     ui->plot->xAxis->setTickLabelFont(pfont);
     ui->plot->yAxis->setTickLabelFont(pfont);
 
-    ui->plot->xAxis->setRange(-0.05,1.6);
-    ui->plot->yAxis->setRange(-0.05,2.1);
+    ui->plot->xAxis->setRange(-0.05,10);
+    ui->plot->yAxis->setRange(-0.05,10.1);
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(0)->setPen(QPen(Qt::blue));
+    ui->plot->graph(0)->setPen(QPen(Qt::yellow));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
     ui->plot->graph(0)->setName("Энергия, ГэВ/нукон");
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(1)->setPen(QPen(Qt::yellow));
+    ui->plot->graph(1)->setPen(QPen(Qt::cyan));
     ui->plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
     ui->plot->graph(1)->setName("Магнитное поле, Тл");
 
@@ -117,14 +121,19 @@ void MainWindow::initPlot()
     ui->plot->graph(2)->setName("Производная магн. поля, Тл/с");
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(3)->setPen(QPen(Qt::green));
+    ui->plot->graph(3)->setPen(QPen(QColor(255,0,255)));
     ui->plot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
     ui->plot->graph(3)->setName("Фаза");
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
-    ui->plot->graph(4)->setPen(QPen(Qt::cyan));
+    ui->plot->graph(4)->setPen(QPen(Qt::blue));
     ui->plot->graph(4)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(4)->setName("Частота");
+    ui->plot->graph(4)->setName("Частота, МГц");
+
+    ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
+    ui->plot->graph(5)->setPen(QPen(Qt::green));
+    ui->plot->graph(5)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
+    ui->plot->graph(5)->setName("Напряжение, кВ");
 
     ui->plot->legend->setVisible(true);
 
@@ -138,13 +147,14 @@ void MainWindow::setCycleParameters()
     // Voltage
     voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
 
-    calculate->setFullPeriod(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters);
+    calculate->setFullPeriod(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters,userParameters->parameters);
 
     points.time=calculate->time;
     points.BField=calculate->BField;
     points.dBField=calculate->dBField;
     points.Energy=calculate->Energy;
     points.phase=calculate->phase;
+    points.freq=calculate->freq;
 
     voltage->V_time=QPair <QVector <double>,QVector <double>> (points.time,calculate->Voltage);
 
@@ -193,7 +203,15 @@ void MainWindow::replot()
     else if (!ui->action_phase->isChecked())
         ui->plot->graph(3)->data()->clear();
 
-    ui->plot->graph(4)->setData(points.time,calculate->temp);
+    if (ui->action_freq->isChecked())
+        ui->plot->graph(4)->setData(points.time,points.freq);
+    else if (!ui->action_freq->isChecked())
+        ui->plot->graph(4)->data()->clear();
+
+    if (ui->action_Vrf->isChecked())
+        ui->plot->graph(5)->setData(points.time,calculate->Voltage);
+    else if (!ui->action_Vrf->isChecked())
+        ui->plot->graph(5)->data()->clear();
 
     ui->plot->replot();
     ui->plot->update();
@@ -202,14 +220,14 @@ void MainWindow::replot()
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.05,1.6);
+    QCPRange limitRange(-0.05,10);
     limitAxisRange(axis,newRange,limitRange);
 }
 
 void MainWindow::yAxisChanged(const QCPRange &newRange)
 {
     QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
-    QCPRange limitRange(-0.05,2.1);
+    QCPRange limitRange(-0.05,10.1);
     limitAxisRange(axis,newRange,limitRange);
 }
 

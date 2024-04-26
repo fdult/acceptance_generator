@@ -35,7 +35,6 @@ void ParametersAcceleration::set()
     parameters.push_back(ui->lineEdit_5->text().toDouble()); // масса покоя протона 4
     parameters.push_back(ui->lineEdit_6->text().toDouble()); // кратность 5
     parameters.push_back(ui->lineEdit_7->text().toDouble()); // энергия инжекции 6
-    parameters.push_back(ui->lineEdit_8->text().toDouble()); // разброс по энергии 7
 
     emit setParameters();
 }

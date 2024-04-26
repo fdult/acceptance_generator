@@ -54,6 +54,7 @@ QMenu{
     <property name="title">
      <string>Параметры</string>
     </property>
+    <addaction name="action_usual"/>
     <addaction name="action_Voltage"/>
     <addaction name="action_parametersAcceleration"/>
     <addaction name="action_adiabaticity"/>
@@ -63,8 +64,10 @@ QMenu{
      <string>График</string>
     </property>
     <addaction name="action_B"/>
-    <addaction name="action_E"/>
     <addaction name="action_dB"/>
+    <addaction name="action_Vrf"/>
+    <addaction name="action_E"/>
+    <addaction name="action_freq"/>
     <addaction name="action_phase"/>
    </widget>
    <addaction name="menu"/>
@@ -72,7 +75,7 @@ QMenu{
   </widget>
   <action name="action_Voltage">
    <property name="text">
-    <string>Напряжение</string>
+    <string>Напряжение (admin)</string>
    </property>
    <property name="font">
     <font>
@@ -82,7 +85,7 @@ QMenu{
   </action>
   <action name="action_parametersAcceleration">
    <property name="text">
-    <string>Ускоритель и пучок</string>
+    <string>Ускоритель и пучок (admin)</string>
    </property>
    <property name="font">
     <font>
@@ -111,7 +114,7 @@ QMenu{
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Энергия пучка</string>
@@ -143,7 +146,7 @@ QMenu{
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Фаза</string>
@@ -175,7 +178,44 @@ QMenu{
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Адиабатичность</string>
+    <string>Адиабатичность (admin)</string>
+   </property>
+  </action>
+  <action name="action_freq">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Частота</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_Vrf">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Напряжение</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_usual">
+   <property name="text">
+    <string>Общие параметры</string>
    </property>
   </action>
  </widget>
