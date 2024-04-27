@@ -108,7 +108,7 @@ void MainWindow::initPlot()
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(0)->setPen(QPen(Qt::yellow));
     ui->plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCross,3));
-    ui->plot->graph(0)->setName("Энергия, ГэВ/нукон");
+    ui->plot->graph(0)->setName("Энергия, ГэВ/нуклон");
 
     ui->plot->addGraph(ui->plot->xAxis,ui->plot->yAxis);
     ui->plot->graph(1)->setPen(QPen(Qt::cyan));

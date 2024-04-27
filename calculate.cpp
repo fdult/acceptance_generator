@@ -50,6 +50,8 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
                                                                   QVector <double> &p, QVector <double> &p2, QVector<double> &p3)
 {
 
+    // p - параметры ускорения, p2 - параметры адиабатичности, p3 - параметры обычного юзера
+
     time.clear();
     Voltage.clear();
     Energy.clear();
@@ -77,18 +79,20 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
     P=p[1];
     r=p[0];
 
-    dB_MAX=1;
-    B_max=1.6;
+    dB_MAX=p3[5];
+    B_max=p3[6];
 
-    B=p[2];
+    B=p3[3];
+
+    qDebug()<<"t_ad ="<<t_ad<<"acc ="<<acc<<"V_inj ="<<V_inj<<"V_rf ="<<V_rf<<"Z ="<<Z<<"A_m ="<<A_m<<"E ="<<E<<"E_m ="<<E_m<<"P ="<<P<<"r ="<<r<<"dB_MAX ="<<dB_MAX<<"B_max ="<<B_max<<"B ="<<B;
 
     time.push_back(0);
-    Voltage.push_back(V_inj);
+    Voltage.push_back(V_rf);
     Energy.push_back(E/1e9);
     BField.push_back(B);
     dBField.push_back(dB);
     phase.push_back(sin_phi);
-    freq.push_back(0);
+    freq.push_back(f_inj(p,p3)/1e6);
 
     int i=0;
     while (i<max_time*diskret && freq_/1e3<2500)
@@ -98,12 +102,14 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             v=_CLight*sqrt(pow(E_m+E,2)-E_m*E_m)/(E_m+E);
             t+=100*P/v;
 
+            freq_=v/P;
+
             gamma=(A_m*(E_m+E))/(A_m*E_m);
             eta=(1./100)-(1./pow(gamma,2));
             sin_phi=findNextX(sin_phi,V_rf*1e3,gamma,eta,acc,p);
             E+=(Z/A_m)*100*V_rf*1e3*sin_phi;
 
-            V_rf=V_inj+((VoltageFrequency.second[f_inj(p)/1e3]-V_inj)/2) * (1-cos(M_PI*t/t_ad));
+            V_rf=V_inj+((VoltageFrequency.second[f_inj(p,p3)/1e3]-V_inj)/2) * (1-cos(M_PI*t/t_ad));
 
             dB=V_rf*1e3*sin_phi/(P*r);
 
@@ -147,6 +153,8 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             phase.push_back(sin_phi);
 
             freq.push_back(freq_/1e6);
+
+            // qDebug()<<t;
             i++;
         }
 
@@ -180,8 +188,12 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
         int temp1=0;
         temp1=i+floor(t_ad*diskret);
 
-        // while (i<max_time*diskret && freq_/1e3<=2500)
-        while (i<temp1)
+        qDebug()<<temp1<<i<<t;
+
+        bool stopFlag=false;
+
+        while (i<max_time*diskret && freq_/1e3<=2500)
+        // while (i<temp1 && freq_/1e3<=2500)
         {
             v=_CLight*sqrt(pow(E_m+E,2)-E_m*E_m)/(E_m+E);
 
@@ -213,15 +225,29 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
             phase.push_back(sin_phi);
 
             i++;
+
+            if (dB<0 || sin_phi<0)
+            {
+                stopFlag=true;
+
+                dBField.removeLast();
+                phase.removeLast();
+
+                dBField.push_back(0);
+                phase.push_back(0);
+
+                break;
+            }
         }
 
+        if (stopFlag) break;
         i++;
     }
 }
 
-double Calculate::B_inj(QVector <double> &p)
+double Calculate::B_inj(QVector <double> &p,QVector <double> &p2)
 {
-    return (p[2]/p[3])*sqrt((2*p[6]*p[4]+p[6])/(p[0]*_CLight*p[0]*_CLight));
+    return (p[2]/p[3])*sqrt((2*p2[3]*p[4]+p2[3])/(p[0]*_CLight*p[0]*_CLight));
 }
 
 double Calculate::E_inj(QVector<double> &p)
@@ -234,9 +260,9 @@ double Calculate::B_0(QVector <double> &p)
     return (p[2]*p[4])/(p[3]*p[0]*_CLight);
 }
 
-double Calculate::f_inj(QVector <double> &p)
+double Calculate::f_inj(QVector <double> &p,QVector <double> &p2)
 {
-    return (p[5]*_CLight*B_inj(p))/(p[1]*sqrt(B_inj(p)*B_inj(p)+B_0(p)*B_0(p)));
+    return (p[5]*_CLight*B_inj(p,p2))/(p[1]*sqrt(B_inj(p,p2)*B_inj(p,p2)+B_0(p)*B_0(p)));
 }
 
 double Calculate::E_total(QVector <double> &p)
@@ -244,9 +270,9 @@ double Calculate::E_total(QVector <double> &p)
     return p[2]*(p[6]+p[4]);
 }
 
-double Calculate::freqrequency(QVector <double> &p)
+double Calculate::freqrequency(QVector <double> &p,QVector <double> &p2)
 {
-    return p[5]*_CLight*B_inj(p)/(p[1]*sqrt(pow((p[2]*p[4])/(p[3]*p[0]*_CLight),2)+B_inj(p)*B_inj(p)));
+    return p[5]*_CLight*B_inj(p,p2)/(p[1]*sqrt(pow((p[2]*p[4])/(p[3]*p[0]*_CLight),2)+B_inj(p,p2)*B_inj(p,p2)));
 }
 
 double Calculate::derivative(double x,double V,double gamma, double eta,QVector <double> &p)

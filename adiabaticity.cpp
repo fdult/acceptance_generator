@@ -23,7 +23,6 @@ void Adiabaticity::set()
 
     parameters.push_back(ui->lineEdit->text().toDouble());
     parameters.push_back(ui->lineEdit_2->text().toDouble());
-    parameters.push_back(ui->lineEdit_3->text().toDouble());
 
     emit setAdiabaticityParameters();
 }

@@ -207,7 +207,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Максимальный темп роста</string>
+         <string>Максимальный темп роста, Тл/с</string>
         </property>
        </widget>
       </item>
@@ -237,7 +237,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Максимальный темп роста</string>
+         <string>Максимальный поле, Тл</string>
         </property>
        </widget>
       </item>

@@ -31,6 +31,8 @@ void UserParameters::set()
     parameters.push_back(ui->lineEdit_4->text().toDouble()); // поле инжекции
     parameters.push_back(ui->lineEdit_3->text().toDouble()); // энергия инжекции
     parameters.push_back(ui->lineEdit_5->text().toDouble()); // напряжение инжекции
+    parameters.push_back(ui->lineEdit_6->text().toDouble()); // темп роста
+    parameters.push_back(ui->lineEdit_7->text().toDouble()); // поле
 }
 
 void UserParameters::changeParameter()

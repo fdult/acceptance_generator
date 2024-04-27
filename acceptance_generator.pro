@@ -49,8 +49,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resource.qrc
 
+# LIBS += LC:\Users\fedor\Documents\gsl_2.7\gsl_bin\bin -lgsl
 
-win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+win32: LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
 
-INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
-DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+
+
+# win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+
+# INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+# DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl

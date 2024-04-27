@@ -20,12 +20,12 @@ public:
     void setFullPeriod(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
                                                            QVector <double> &p,QVector <double> &p2,QVector <double> &p3);
 
-    double B_inj(QVector <double> &p);
+    double B_inj(QVector <double> &p,QVector <double> &p2);
     double E_inj(QVector <double> &p);
     double B_0(QVector <double> &p);
-    double f_inj(QVector <double> &p);
+    double f_inj(QVector <double> &p,QVector <double> &p2);
     double E_total(QVector <double> &p);
-    double freqrequency(QVector <double> &p);
+    double freqrequency(QVector <double> &p,QVector <double> &p2);
 
     // метод Ньютона-Рафсона
     double derivative(double x, double V, double gamma, double eta, QVector <double> &p);
