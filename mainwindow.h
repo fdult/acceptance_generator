@@ -43,6 +43,7 @@ private:
     void initWindow();
     void initPlot();
     void setCycleParameters();
+    void changeUserParameters(int index);
     void clearPoints();
 
     void replot();

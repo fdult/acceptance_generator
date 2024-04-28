@@ -35,11 +35,11 @@ void MainWindow::initWindow()
     connect(ui->action_freq,&QAction::changed,this,&MainWindow::replot);
     connect(ui->action_Vrf,&QAction::changed,this,&MainWindow::replot);
 
-
     // menu
     connect(ui->action_Voltage,&QAction::triggered,voltage,&Voltage::show);
     connect(ui->action_parametersAcceleration,&QAction::triggered,parametersAcceleration,&ParametersAcceleration::show);
     connect(ui->action_adiabaticity,&QAction::triggered,adiabaticity,&Adiabaticity::show);
+    connect(ui->action_usual,&QAction::triggered,userParameters,&UserParameters::show);
 
     // voltage dialog
     connect(voltage,&Voltage::setVoltageSignal,this,&MainWindow::setCycleParameters);
@@ -47,8 +47,13 @@ void MainWindow::initWindow()
     // parameters dialog
     connect(parametersAcceleration,&ParametersAcceleration::setParameters,this,&MainWindow::setCycleParameters);
 
-    // parameters adiabaticity
+    // parameters adiabaticity dialog
     connect(adiabaticity,&Adiabaticity::setAdiabaticityParameters,this,&MainWindow::setCycleParameters);
+    connect(adiabaticity,&Adiabaticity::setAcceptance,this,&MainWindow::changeUserParameters);
+
+    // user parameters dialog
+    connect(userParameters,&UserParameters::setUserParameters,this,&MainWindow::setCycleParameters);
+    connect(userParameters,&UserParameters::change,this,&MainWindow::changeUserParameters);
 }
 
 void MainWindow::initPlot()
@@ -144,7 +149,6 @@ void MainWindow::setCycleParameters()
 {
     clearPoints();
 
-    // Voltage
     voltage->V_interpol=calculate->setVoltageFrequency(voltage->V);
 
     calculate->setFullPeriod(voltage->V_interpol,parametersAcceleration->parameters,adiabaticity->parameters,userParameters->parameters);
@@ -158,18 +162,36 @@ void MainWindow::setCycleParameters()
 
     voltage->V_time=QPair <QVector <double>,QVector <double>> (points.time,calculate->Voltage);
 
-    // qDebug()<<"Поле инжекции, Тл ="<<calculate->B_inj(parametersAcceleration->parameters);
-    // qDebug()<<"B_0 ="<<calculate->B_0(parametersAcceleration->parameters);
-    // qDebug()<<"Частота инжекции, кГц ="<<calculate->f_inj(parametersAcceleration->parameters)/1e3;
-    // qDebug()<<"Акцептанс инжекции ="<<calculate->e_inj(parametersAcceleration->parameters);
-    // qDebug()<<"Скорость пучка на инжекции, м/с ="<<calculate->Velocity_inj(parametersAcceleration->parameters);
-    // qDebug()<<"V_0 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,0);
-    // qDebug()<<"V_1 ="<<calculate->V_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters,1);
-    // qDebug()<<"t_ad ="<<calculate->t_adiabaticity(parametersAcceleration->parameters,adiabaticity->parameters);
-    // qDebug()<<"======================================";
-
     voltage->replot();
     replot();
+}
+
+void MainWindow::changeUserParameters(int index)
+{
+    switch (index)
+    {
+    case 0:
+        userParameters->setParameter(1,calculate->dE(parametersAcceleration->parameters,userParameters->parameters));
+        userParameters->setLabelAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        adiabaticity->changeAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        break;
+    case 1:
+        userParameters->setParameter(0,calculate->dp(parametersAcceleration->parameters,userParameters->parameters));
+        userParameters->setLabelAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        adiabaticity->changeAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        break;
+    case 2:
+        userParameters->setParameter(3,calculate->E_inj(parametersAcceleration->parameters,userParameters->parameters));
+        break;
+    case 3:
+        userParameters->setParameter(2,calculate->B_inj(parametersAcceleration->parameters,userParameters->parameters));
+        break;
+    case 4:
+        userParameters->setLabelAcceptance(adiabaticity->parameters[1]);
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWindow::clearPoints()
@@ -184,34 +206,71 @@ void MainWindow::clearPoints()
 void MainWindow::replot()
 {
     if (ui->action_E->isChecked())
+    {
         ui->plot->graph(0)->setData(points.time,points.Energy);
+        ui->plot->graph(0)->addToLegend();
+    }
     else if (!ui->action_E->isChecked())
-        ui->plot->graph(0)->data()->clear();
+        {
+            ui->plot->graph(0)->data()->clear();
+            ui->plot->graph(0)->removeFromLegend();
+        }
 
     if (ui->action_B->isChecked())
+    {
         ui->plot->graph(1)->setData(points.time,points.BField);
+        ui->plot->graph(1)->addToLegend();
+    }
     else if (!ui->action_B->isChecked())
-        ui->plot->graph(1)->data()->clear();
-
+        {
+            ui->plot->graph(1)->data()->clear();
+            ui->plot->graph(1)->removeFromLegend();
+        }
     if (ui->action_dB->isChecked())
+    {
         ui->plot->graph(2)->setData(points.time,points.dBField);
+        ui->plot->graph(2)->addToLegend();
+    }
     else if (!ui->action_dB->isChecked())
-        ui->plot->graph(2)->data()->clear();
+        {
+            ui->plot->graph(2)->data()->clear();
+            ui->plot->graph(2)->removeFromLegend();
+        }
 
     if (ui->action_phase->isChecked())
+    {
         ui->plot->graph(3)->setData(points.time,points.phase);
+        ui->plot->graph(3)->addToLegend();
+    }
     else if (!ui->action_phase->isChecked())
-        ui->plot->graph(3)->data()->clear();
+        {
+            ui->plot->graph(3)->data()->clear();
+            ui->plot->graph(3)->removeFromLegend();
+        }
 
     if (ui->action_freq->isChecked())
+    {
         ui->plot->graph(4)->setData(points.time,points.freq);
+        ui->plot->graph(4)->addToLegend();
+    }
     else if (!ui->action_freq->isChecked())
-        ui->plot->graph(4)->data()->clear();
+        {
+            ui->plot->graph(4)->data()->clear();
+            ui->plot->graph(4)->removeFromLegend();
+        }
 
     if (ui->action_Vrf->isChecked())
+    {
         ui->plot->graph(5)->setData(points.time,calculate->Voltage);
+        ui->plot->graph(5)->addToLegend();
+    }
     else if (!ui->action_Vrf->isChecked())
-        ui->plot->graph(5)->data()->clear();
+        {
+            ui->plot->graph(5)->data()->clear();
+            ui->plot->graph(5)->removeFromLegend();
+        }
+
+    ui->plot->xAxis->setRangeUpper(points.time.last()+(5*points.time.last()/100));
 
     ui->plot->replot();
     ui->plot->update();
@@ -219,7 +278,7 @@ void MainWindow::replot()
 
 void MainWindow::xAxisChanged(const QCPRange &newRange)
 {
-    QCPAxis *axis=qobject_cast<QCPAxis*> (QObject::sender());
+    QCPAxis *axis=qobject_cast <QCPAxis*> (QObject::sender());
     QCPRange limitRange(-0.05,10);
     limitAxisRange(axis,newRange,limitRange);
 }

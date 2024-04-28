@@ -18,12 +18,14 @@ public:
 
     QVector <double> parameters;
     void set();
+    void changeAcceptance(double value);
 
 private:
     Ui::Adiabaticity *ui;
 
 signals:
     void setAdiabaticityParameters();
+    void setAcceptance(int index);
 };
 
 #endif // ADIABATICITY_H

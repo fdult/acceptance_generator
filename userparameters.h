@@ -18,6 +18,9 @@ public:
 
     QVector <double> parameters;
 
+    void setParameter(int index,double value);
+    void setLabelAcceptance(double value);
+
 private:
     Ui::UserParameters *ui;
 
@@ -27,6 +30,7 @@ private:
 
 signals:
     void change(int index);
+    void setUserParameters();
 };
 
 #endif // USERPARAMETERS_H

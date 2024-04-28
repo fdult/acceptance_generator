@@ -68,7 +68,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
     t_ad=p2[0];
     acc=p2[1];
-    V_inj=p3[4];
+    V_inj=p3[6];
 
     V_rf=V_inj;
 
@@ -79,12 +79,12 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
     P=p[1];
     r=p[0];
 
-    dB_MAX=p3[5];
-    B_max=p3[6];
+    dB_MAX=p3[4];
+    B_max=p3[5];
 
-    B=p3[3];
+    B=p3[2];
 
-    qDebug()<<"t_ad ="<<t_ad<<"acc ="<<acc<<"V_inj ="<<V_inj<<"V_rf ="<<V_rf<<"Z ="<<Z<<"A_m ="<<A_m<<"E ="<<E<<"E_m ="<<E_m<<"P ="<<P<<"r ="<<r<<"dB_MAX ="<<dB_MAX<<"B_max ="<<B_max<<"B ="<<B;
+    // qDebug()<<"t_ad ="<<t_ad<<"acc ="<<acc<<"V_inj ="<<V_inj<<"V_rf ="<<V_rf<<"Z ="<<Z<<"A_m ="<<A_m<<"E ="<<E<<"E_m ="<<E_m<<"P ="<<P<<"r ="<<r<<"dB_MAX ="<<dB_MAX<<"B_max ="<<B_max<<"B ="<<B;
 
     time.push_back(0);
     Voltage.push_back(V_rf);
@@ -188,7 +188,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
         int temp1=0;
         temp1=i+floor(t_ad*diskret);
 
-        qDebug()<<temp1<<i<<t;
+        // qDebug()<<temp1<<i<<t;
 
         bool stopFlag=false;
 
@@ -245,14 +245,45 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
     }
 }
 
+double Calculate::acceptance(QVector<double> &p, QVector<double> &p2)
+{
+    double p_inj=0;
+
+    p_inj=sqrt(pow(p2[3]+p[4],2)-p[4]*p[4]);
+
+    return 2*p[1]*p2[0]*p_inj/_CLight;
+}
+
 double Calculate::B_inj(QVector <double> &p,QVector <double> &p2)
 {
     return (p[2]/p[3])*sqrt((2*p2[3]*p[4]+p2[3])/(p[0]*_CLight*p[0]*_CLight));
 }
 
-double Calculate::E_inj(QVector<double> &p)
+double Calculate::E_inj(QVector <double> &p,QVector <double> &p2)
 {
-    return 0;
+    return (p2[2]*p2[2]*p[3]*p[3]*p[0]*p[0]*_CLight*_CLight)/(p[2]*p[2]*(2*p[4]+1));
+}
+
+double Calculate::dp(QVector <double> &p,QVector <double> &p2)
+{
+    double gamma=0,beta=0;
+
+    gamma=p[2]*(p[4]+p2[3])/(p[2]*p[4]);
+    beta=sqrt(1-(1./(gamma*gamma)));
+
+    return p2[1]/(beta*beta*E_total(p,p2));
+}
+
+double Calculate::dE(QVector <double> &p,QVector <double> &p2)
+{
+    double gamma=0,beta=0;
+
+    gamma=p[2]*(p[4]+p2[3])/(p[2]*p[4]);
+    beta=sqrt(1-(1./(gamma*gamma)));
+
+    // qDebug()<<p[2]<<p[4]<<p2[3]<<beta;
+
+    return p2[0]*beta*beta*E_total(p,p2);
 }
 
 double Calculate::B_0(QVector <double> &p)
@@ -265,9 +296,9 @@ double Calculate::f_inj(QVector <double> &p,QVector <double> &p2)
     return (p[5]*_CLight*B_inj(p,p2))/(p[1]*sqrt(B_inj(p,p2)*B_inj(p,p2)+B_0(p)*B_0(p)));
 }
 
-double Calculate::E_total(QVector <double> &p)
+double Calculate::E_total(QVector <double> &p,QVector <double> &p2)
 {
-    return p[2]*(p[6]+p[4]);
+    return p[2]*(p2[3]+p[4]);
 }
 
 double Calculate::freqrequency(QVector <double> &p,QVector <double> &p2)

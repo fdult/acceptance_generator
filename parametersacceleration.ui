@@ -130,7 +130,7 @@
       </font>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string>Применить</string>

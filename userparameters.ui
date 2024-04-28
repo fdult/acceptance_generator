@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>629</width>
-    <height>335</height>
+    <height>399</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -19,23 +19,14 @@
   <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="title">
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Разброс по импульсу</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
+      <item row="1" column="1">
        <widget class="QLineEdit" name="lineEdit">
         <property name="font">
          <font>
@@ -53,7 +44,25 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+        <property name="text">
+         <string>994144</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
        <widget class="QLabel" name="label_7">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -72,25 +81,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="lineEdit_2">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="text">
-         <string>1e6</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
+      <item row="1" column="4">
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
@@ -98,7 +89,61 @@
          </font>
         </property>
         <property name="text">
-         <string>Разброс по энерегии</string>
+         <string>Разброс по энергии</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_e">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>ε = 0.137731</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Разброс по импульсу</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Auto</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Auto</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -107,24 +152,15 @@
    </item>
    <item row="1" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox_2">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="title">
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="font">
-         <font>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Поле инжекции, Тл</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit_4">
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_3">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -141,7 +177,19 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Энергия инжекции, эВ</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
        <widget class="QLabel" name="label_5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -160,8 +208,8 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="lineEdit_3">
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="lineEdit_4">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -171,22 +219,52 @@
          <enum>Qt::ClickFocus</enum>
         </property>
         <property name="text">
-         <string>3.2e6</string>
+         <string>3.1818e+06</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_3">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_4">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Энергия инжекции, эВ</string>
+         <string>Поле инжекции, Тл</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Auto</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="checkBox_4">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Auto</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -195,6 +273,9 @@
    </item>
    <item row="2" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox_3">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -212,7 +293,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit_6">
+       <widget class="QLineEdit" name="lineEdit_5">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -237,12 +318,12 @@
          </font>
         </property>
         <property name="text">
-         <string>Максимальный поле, Тл</string>
+         <string>Максимальное поле, Тл</string>
         </property>
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QLineEdit" name="lineEdit_7">
+       <widget class="QLineEdit" name="lineEdit_6">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -275,7 +356,7 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEdit_5">
+    <widget class="QLineEdit" name="lineEdit_7">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -319,7 +400,7 @@
       </font>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
+      <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
       <string> Применить</string>

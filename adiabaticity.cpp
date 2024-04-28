@@ -24,5 +24,15 @@ void Adiabaticity::set()
     parameters.push_back(ui->lineEdit->text().toDouble());
     parameters.push_back(ui->lineEdit_2->text().toDouble());
 
+    emit setAcceptance(4);
     emit setAdiabaticityParameters();
+}
+
+void Adiabaticity::changeAcceptance(double value)
+{
+    if (ui->checkBox->isChecked())
+    {
+        ui->lineEdit_2->setText(QString::number(value));
+        set();
+    }
 }

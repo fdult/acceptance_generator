@@ -20,12 +20,15 @@ public:
     void setFullPeriod(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
                                                            QVector <double> &p,QVector <double> &p2,QVector <double> &p3);
 
-    double B_inj(QVector <double> &p,QVector <double> &p2);
-    double E_inj(QVector <double> &p);
-    double B_0(QVector <double> &p);
-    double f_inj(QVector <double> &p,QVector <double> &p2);
-    double E_total(QVector <double> &p);
-    double freqrequency(QVector <double> &p,QVector <double> &p2);
+    double acceptance(QVector <double> &p,QVector <double> &p2);
+    double B_inj(QVector <double> &p,QVector <double> &p2); // поле инжекции
+    double E_inj(QVector <double> &p,QVector <double> &p2); // энергия инжекции
+    double dp(QVector <double> &p,QVector <double> &p2); // разброс по импульсу
+    double dE(QVector <double> &p,QVector <double> &p2); // разброс по энергии
+    double B_0(QVector <double> &p); // коэффициент
+    double f_inj(QVector <double> &p,QVector <double> &p2); // частота инжекции
+    double E_total(QVector <double> &p,QVector <double> &p2); // полная энергия
+    double freqrequency(QVector <double> &p,QVector <double> &p2); //
 
     // метод Ньютона-Рафсона
     double derivative(double x, double V, double gamma, double eta, QVector <double> &p);
