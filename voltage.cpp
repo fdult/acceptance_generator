@@ -77,8 +77,6 @@ void Voltage::init()
                                                                 ui->tableWidget->item(i,2)->text().toDouble()/100));
     }
 
-    // ui->tableWidget->item(0,2)->setText("-");
-
     connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
 }
 

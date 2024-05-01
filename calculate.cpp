@@ -84,8 +84,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
     B=p3[2];
 
-    // qDebug()<<"t_ad ="<<t_ad<<"acc ="<<acc<<"V_inj ="<<V_inj<<"V_rf ="<<V_rf<<"Z ="<<Z<<"A_m ="<<A_m<<"E ="<<E<<"E_m ="<<E_m<<"P ="<<P<<"r ="<<r<<"dB_MAX ="<<dB_MAX<<"B_max ="<<B_max<<"B ="<<B;
-
     time.push_back(0);
     Voltage.push_back(V_rf);
     Energy.push_back(E/1e9);
@@ -154,7 +152,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
             freq.push_back(freq_/1e6);
 
-            // qDebug()<<t;
             i++;
         }
 
@@ -187,8 +184,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
         int temp1=0;
         temp1=i+floor(t_ad*diskret);
-
-        // qDebug()<<temp1<<i<<t;
 
         bool stopFlag=false;
 
@@ -280,8 +275,6 @@ double Calculate::dE(QVector <double> &p,QVector <double> &p2)
 
     gamma=p[2]*(p[4]+p2[3])/(p[2]*p[4]);
     beta=sqrt(1-(1./(gamma*gamma)));
-
-    // qDebug()<<p[2]<<p[4]<<p2[3]<<beta;
 
     return p2[0]*beta*beta*E_total(p,p2);
 }

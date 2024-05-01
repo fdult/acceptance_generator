@@ -172,13 +172,13 @@ void MainWindow::changeUserParameters(int index)
     {
     case 0:
         userParameters->setParameter(1,calculate->dE(parametersAcceleration->parameters,userParameters->parameters));
-        userParameters->setLabelAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
         adiabaticity->changeAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        userParameters->setLabelAcceptance(adiabaticity->parameters[1]);
         break;
     case 1:
         userParameters->setParameter(0,calculate->dp(parametersAcceleration->parameters,userParameters->parameters));
-        userParameters->setLabelAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
         adiabaticity->changeAcceptance(calculate->acceptance(parametersAcceleration->parameters,userParameters->parameters));
+        userParameters->setLabelAcceptance(adiabaticity->parameters[1]);
         break;
     case 2:
         userParameters->setParameter(3,calculate->E_inj(parametersAcceleration->parameters,userParameters->parameters));

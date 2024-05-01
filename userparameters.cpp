@@ -31,22 +31,18 @@ void UserParameters::setParameter(int index,double value)
     case 0:
         if (ui->checkBox->isChecked())
             ui->lineEdit->setText(QString::number(value));
-        qDebug()<<1;
         break;
     case 1:
         if (ui->checkBox_2->isChecked())
             ui->lineEdit_2->setText(QString::number(value));
-        qDebug()<<2;
         break;
     case 2:
         if (ui->checkBox_3->isChecked())
             ui->lineEdit_3->setText(QString::number(value));
-        qDebug()<<3;
         break;
     case 3:
         if (ui->checkBox_4->isChecked())
             ui->lineEdit_4->setText(QString::number(value));
-        qDebug()<<4;
         break;
     default:
         break;
@@ -72,34 +68,28 @@ void UserParameters::set()
     parameters.push_back(ui->lineEdit_6->text().toDouble()); // максимальное поле 5
     parameters.push_back(ui->lineEdit_7->text().toDouble()); // напряжение инжекции 6
 
-    qDebug()<<parameters;
-
     emit setUserParameters();
 }
 
 void UserParameters::changeParameter()
 {
-    // QLineEdit *line=qobject_cast <QLineEdit*> (QObject::sender());
+    QLineEdit *line=qobject_cast <QLineEdit*> (QObject::sender());
 
-    if (QObject::sender()==ui->lineEdit) // разброс по импульсу
+    if (line->objectName()=="lineEdit") // разброс по импульсу
     {
-        qDebug()<<"emit"<<0;
         emit change(0);
     }
-    if (QObject::sender()==ui->lineEdit_2) // разброс по энергии
+    if (line->objectName()=="lineEdit_2") // разброс по энергии
     {
-        qDebug()<<"emit"<<1;
         emit change(1);
     }
 
-    if (QObject::sender()==ui->lineEdit_3) // поле инжекции
+    if (line->objectName()=="lineEdit_3") // поле инжекции
     {
-        qDebug()<<"emit"<<2;
         emit change(2);
     }
-    if (QObject::sender()==ui->lineEdit_4) // энергия инжекции
+    if (line->objectName()=="lineEdit_4") // энергия инжекции
     {
-        qDebug()<<"emit"<<3;
         emit change(3);
     }
 }
