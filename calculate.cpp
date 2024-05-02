@@ -188,7 +188,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
         bool stopFlag=false;
 
         while (i<max_time*diskret && freq_/1e3<=2500)
-        // while (i<temp1 && freq_/1e3<=2500)
         {
             v=_CLight*sqrt(pow(E_m+E,2)-E_m*E_m)/(E_m+E);
 

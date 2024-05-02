@@ -26,6 +26,7 @@ void MainWindow::initWindow()
     parametersAcceleration=new ParametersAcceleration(this);
     adiabaticity=new Adiabaticity(this);
     userParameters=new UserParameters(this);
+    fileOut=new FileOut();
 
     // check graphs
     connect(ui->action_E,&QAction::changed,this,&MainWindow::replot);
@@ -161,6 +162,8 @@ void MainWindow::setCycleParameters()
     points.freq=calculate->freq;
 
     voltage->V_time=QPair <QVector <double>,QVector <double>> (points.time,calculate->Voltage);
+
+    fileOut->writeToFile(voltage->V_time);
 
     voltage->replot();
     replot();

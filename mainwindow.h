@@ -8,6 +8,7 @@
 #include <parametersacceleration.h>
 #include <adiabaticity.h>
 #include <userparameters.h>
+#include <fileout.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -37,6 +38,7 @@ private:
     ParametersAcceleration *parametersAcceleration;
     Adiabaticity *adiabaticity;
     UserParameters *userParameters;
+    FileOut *fileOut;
 
     points points;
 

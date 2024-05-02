@@ -16,6 +16,7 @@ QMAKE_TARGET_COPYRIGHT = JINR
 SOURCES += \
     adiabaticity.cpp \
     calculate.cpp \
+    fileout.cpp \
     main.cpp \
     mainwindow.cpp \
     parametersacceleration.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     adiabaticity.h \
     calculate.h \
+    fileout.h \
     mainwindow.h \
     parametersacceleration.h \
     qcustomplot.h \
@@ -51,13 +53,13 @@ RESOURCES += \
 
 # LIBS += LC:\Users\fedor\Documents\gsl_2.7\gsl_bin\bin -lgsl
 
-win32: LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
+# win32: LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
 
-INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
-DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+# INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+# DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
 
 
-# win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
 
-# INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
-# DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
