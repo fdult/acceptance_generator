@@ -8,6 +8,9 @@ UserParameters::UserParameters(QWidget *parent) : QDialog(parent), ui(new Ui::Us
     setWindowTitle("Общие параметры");
 
     connect(ui->pushButton,&QPushButton::clicked,this,&UserParameters::set);
+    connect(ui->lineEdit_5,&QLineEdit::editingFinished,this,&UserParameters::set);
+    connect(ui->lineEdit_6,&QLineEdit::editingFinished,this,&UserParameters::set);
+    connect(ui->lineEdit_7,&QLineEdit::editingFinished,this,&UserParameters::set);
 
     connect(ui->lineEdit,&QLineEdit::editingFinished,this,&UserParameters::changeParameter);
     connect(ui->lineEdit_2,&QLineEdit::editingFinished,this,&UserParameters::changeParameter);

@@ -30,7 +30,7 @@ private:
 
     void init();
     void initPlot();
-    void setVolatge();
+    void setVoltage();
 
     void changeItem(int row,int col);
 

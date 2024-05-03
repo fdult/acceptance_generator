@@ -8,6 +8,8 @@ Adiabaticity::Adiabaticity(QWidget *parent) : QDialog(parent), ui(new Ui::Adiaba
     setWindowTitle("Параметры адиабатичности");
 
     connect(ui->pushButton,&QPushButton::clicked,this,&Adiabaticity::set);
+    connect(ui->lineEdit,&QLineEdit::editingFinished,this,&Adiabaticity::set);
+    connect(ui->lineEdit_2,&QLineEdit::editingFinished,this,&Adiabaticity::set);
 
     set();
 }

@@ -20,6 +20,12 @@ void ParametersAcceleration::init()
     setWindowTitle("Параметры ускорителя и пучка");
 
     connect(ui->pushButton,&QPushButton::clicked,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit_2,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit_3,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit_4,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit_5,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
+    connect(ui->lineEdit_6,&QLineEdit::editingFinished,this,&ParametersAcceleration::set);
 
     set();
 }

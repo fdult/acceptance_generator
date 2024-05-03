@@ -20,8 +20,8 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageFrequency(QPair <
         y[i+1]=Voltage.second[i];
     }
 
-    x[7]=2501;
-    y[7]=Voltage.second[5];
+    x[22]=2501;
+    y[22]=Voltage.second[20];
 
     Voltage.first.clear();
     Voltage.second.clear();
@@ -49,7 +49,6 @@ QPair <QVector <double>,QVector <double>> Calculate::setVoltageFrequency(QPair <
 void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &VoltageFrequency,
                                                                   QVector <double> &p, QVector <double> &p2, QVector<double> &p3)
 {
-
     // p - параметры ускорения, p2 - параметры адиабатичности, p3 - параметры обычного юзера
 
     time.clear();

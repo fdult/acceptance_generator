@@ -273,7 +273,11 @@ void MainWindow::replot()
             ui->plot->graph(5)->removeFromLegend();
         }
 
-    ui->plot->xAxis->setRangeUpper(points.time.last()+(5*points.time.last()/100));
+    if (ui->action_autoreplot->isChecked())
+    {
+        ui->plot->xAxis->setRangeUpper(points.time.last()+(5*points.time.last()/100));
+        ui->plot->yAxis->setRange(-0.05,10.1);
+    }
 
     ui->plot->replot();
     ui->plot->update();

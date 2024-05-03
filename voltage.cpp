@@ -9,7 +9,7 @@ Voltage::Voltage(QWidget *parent) : QDialog(parent), ui(new Ui::Voltage)
 
     initPlot();
 
-    setVolatge();
+    setVoltage();
 }
 
 Voltage::~Voltage()
@@ -21,9 +21,10 @@ void Voltage::init()
 {
     setWindowTitle("Параметры напряжения");
 
-    connect(ui->pushButton,&QPushButton::clicked,this,&Voltage::setVolatge);
+    connect(ui->pushButton,&QPushButton::clicked,this,&Voltage::setVoltage);
     connect(ui->btn_refresh,&QPushButton::clicked,this,[=]()
     {
+        disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
         for (int i=0;i<ui->tableWidget->rowCount();i++)
         {
             bool isNum=false;
@@ -33,19 +34,25 @@ void Voltage::init()
                 if (isNum && num>=30 && num<=100)
                 {
                     ui->tableWidget->item(i,2)->setText(QString::number(num));
+                    ui->tableWidget->item(i,3)->setText(QString::number(num*ui->tableWidget->item(i,0)->text().toDouble()));
                 }
                 else if (isNum && num>100)
                 {
                     ui->tableWidget->item(i,2)->setText(QString::number(100));
+                    ui->tableWidget->item(i,3)->setText(QString::number(100*ui->tableWidget->item(i,0)->text().toDouble()));
+                    ui->lineEdit->setText(QString::number(100));
                 }
                 else if (isNum && num<30)
                 {
                     ui->tableWidget->item(i,2)->setText(QString::number(30));
+                    ui->tableWidget->item(i,3)->setText(QString::number(30*ui->tableWidget->item(i,0)->text().toDouble()));
                     ui->lineEdit->setText(QString::number(30));
                 }
+                ui->tableWidget->item(i,3)->setBackground(QColor(25,25,25));
             }
         }
-        setVolatge();
+        setVoltage();
+        connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
     });
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
@@ -53,14 +60,32 @@ void Voltage::init()
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);
 
-    ui->tableWidget->item(0,0)->setText(QString::number(4));
-    ui->tableWidget->item(1,0)->setText(QString::number(5));
-    ui->tableWidget->item(2,0)->setText(QString::number(7.6));
-    ui->tableWidget->item(3,0)->setText(QString::number(8.6));
-    ui->tableWidget->item(4,0)->setText(QString::number(9.2));
-    ui->tableWidget->item(5,0)->setText(QString::number(10));
+    ui->tableWidget->item(0,0)->setText(QString::number(4)); // 100
+    ui->tableWidget->item(1,0)->setText(QString::number(4.8)); // 125
+    ui->tableWidget->item(2,0)->setText(QString::number(5.4)); // 150
+    ui->tableWidget->item(3,0)->setText(QString::number(5.4)); // 175
 
+    ui->tableWidget->item(4,0)->setText(QString::number(5.4)); // 200
+    ui->tableWidget->item(5,0)->setText(QString::number(6)); // 225
+    ui->tableWidget->item(6,0)->setText(QString::number(6.8)); // 250
+    ui->tableWidget->item(7,0)->setText(QString::number(7.5)); // 275
 
+    ui->tableWidget->item(8,0)->setText(QString::number(8)); // 300
+    ui->tableWidget->item(9,0)->setText(QString::number(8.4)); // 325
+    ui->tableWidget->item(10,0)->setText(QString::number(8.4)); // 350
+    ui->tableWidget->item(11,0)->setText(QString::number(8.4)); // 375
+
+    ui->tableWidget->item(12,0)->setText(QString::number(8.4)); // 400
+    ui->tableWidget->item(13,0)->setText(QString::number(8.4)); // 425
+    ui->tableWidget->item(14,0)->setText(QString::number(8.4)); // 450
+    ui->tableWidget->item(15,0)->setText(QString::number(8.8)); // 475
+
+    ui->tableWidget->item(16,0)->setText(QString::number(9.3)); // 500
+    ui->tableWidget->item(17,0)->setText(QString::number(9.6)); // 525
+    ui->tableWidget->item(18,0)->setText(QString::number(9.74)); // 550
+    ui->tableWidget->item(19,0)->setText(QString::number(9.8)); // 575
+
+    ui->tableWidget->item(20,0)->setText(QString::number(10)); // 600
 
     for (int i=0;i<ui->tableWidget->rowCount();i++)
     {
@@ -69,7 +94,7 @@ void Voltage::init()
         ui->tableWidget->item(i,2)->setTextAlignment(Qt::AlignCenter);
         ui->tableWidget->item(i,3)->setTextAlignment(Qt::AlignCenter);
 
-        ui->tableWidget->item(i,1)->setText(QString::number((i+1)*100));
+        ui->tableWidget->item(i,1)->setText(QString::number((i*25)+100));
 
         ui->tableWidget->item(i,2)->setText(QString::number(80));
 
@@ -122,7 +147,6 @@ void Voltage::initPlot()
     ui->plot->xAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
     ui->plot->xAxis2->setUpperEnding(QCPLineEnding::esSpikeArrow);
     ui->plot->yAxis->setUpperEnding(QCPLineEnding::esSpikeArrow);
-
 
     QLinearGradient plotGradient;
     plotGradient.setStart(0,0);
@@ -202,7 +226,7 @@ void Voltage::initPlot()
     connect(ui->plot->yAxis,SIGNAL(rangeChanged(QCPRange)),this,SLOT(yAxisChanged(QCPRange)));
 }
 
-void Voltage::setVolatge()
+void Voltage::setVoltage()
 {
     V.first.clear();
     V.second.clear();
@@ -224,35 +248,54 @@ void Voltage::setVolatge()
 
 void Voltage::changeItem(int row,int col)
 {
+    disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
     if (col==2)
     {
-        disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
         bool isNum=false;
         double num=ui->tableWidget->item(row,col)->text().toDouble(&isNum);
+
         if (isNum && num>=30 && num<=100)
         {
             ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
-            setVolatge();
+            setVoltage();
         }
         else if (isNum && num>100)
         {
             ui->tableWidget->item(row,col)->setText(QString::number(100));
             ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
-            setVolatge();
+            setVoltage();
         }
         else if (isNum && num<30)
         {
             ui->tableWidget->item(row,col)->setText(QString::number(30));
             ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
-            setVolatge();
+            setVoltage();
         }
         else
         {
             ui->tableWidget->item(row,col)->setBackground(Qt::red);
         }
-        connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
     }
 
+    if (col==3)
+    {
+        bool isNum=false;
+        double num=ui->tableWidget->item(row,col)->text().toDouble(&isNum);
+        double max_num=ui->tableWidget->item(row,0)->text().toDouble();
+
+        if (isNum && num<=max_num && num>0)
+        {
+            ui->tableWidget->item(row,2)->setText(QString::number(100*num/max_num));
+            ui->tableWidget->item(row,col)->setBackground(QColor(25,25,25));
+            setVoltage();
+        }
+        else
+        {
+            ui->tableWidget->item(row,col)->setBackground(Qt::red);
+        }
+    }
+
+    connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
 }
 
 void Voltage::replot()

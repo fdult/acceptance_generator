@@ -69,6 +69,8 @@ QMenu{
     <addaction name="action_E"/>
     <addaction name="action_freq"/>
     <addaction name="action_phase"/>
+    <addaction name="separator"/>
+    <addaction name="action_autoreplot"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -216,6 +218,22 @@ QMenu{
   <action name="action_usual">
    <property name="text">
     <string>Общие параметры</string>
+   </property>
+  </action>
+  <action name="action_autoreplot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Автообновление </string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
   </action>
  </widget>
