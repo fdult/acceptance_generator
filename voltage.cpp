@@ -87,6 +87,30 @@ void Voltage::init()
 
     ui->tableWidget->item(20,0)->setText(QString::number(10)); // 600
 
+    //////////////////////
+
+    ui->tableWidget->item(0,3)->setText(QString::number(3.25));
+    ui->tableWidget->item(1,3)->setText(QString::number(3.25));
+    ui->tableWidget->item(2,3)->setText(QString::number(3.25));
+    ui->tableWidget->item(3,3)->setText(QString::number(3.3));
+    ui->tableWidget->item(4,3)->setText(QString::number(3.6));
+    ui->tableWidget->item(5,3)->setText(QString::number(3.9));
+    ui->tableWidget->item(6,3)->setText(QString::number(4.2));
+    ui->tableWidget->item(7,3)->setText(QString::number(4.5));
+    ui->tableWidget->item(8,3)->setText(QString::number(5));
+    ui->tableWidget->item(9,3)->setText(QString::number(5.5));
+    ui->tableWidget->item(10,3)->setText(QString::number(6));
+    ui->tableWidget->item(11,3)->setText(QString::number(6.35));
+    ui->tableWidget->item(12,3)->setText(QString::number(6.65));
+    ui->tableWidget->item(13,3)->setText(QString::number(6.9));
+    ui->tableWidget->item(14,3)->setText(QString::number(7.1));
+    ui->tableWidget->item(15,3)->setText(QString::number(7.3));
+    ui->tableWidget->item(16,3)->setText(QString::number(7.5));
+    ui->tableWidget->item(17,3)->setText(QString::number(7.65));
+    ui->tableWidget->item(18,3)->setText(QString::number(7.8));
+    ui->tableWidget->item(19,3)->setText(QString::number(7.9));
+    ui->tableWidget->item(20,3)->setText(QString::number(8));
+
     for (int i=0;i<ui->tableWidget->rowCount();i++)
     {
         ui->tableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
@@ -96,10 +120,10 @@ void Voltage::init()
 
         ui->tableWidget->item(i,1)->setText(QString::number((i*25)+100));
 
-        ui->tableWidget->item(i,2)->setText(QString::number(80));
+        // ui->tableWidget->item(i,2)->setText(QString::number(80));
 
-        ui->tableWidget->item(i,3)->setText(QString::number(ui->tableWidget->item(i,0)->text().toDouble()*
-                                                                ui->tableWidget->item(i,2)->text().toDouble()/100));
+        ui->tableWidget->item(i,2)->setText(QString::number(ui->tableWidget->item(i,3)->text().toDouble()/
+                                                                ui->tableWidget->item(i,0)->text().toDouble()*100));
     }
 
     connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);

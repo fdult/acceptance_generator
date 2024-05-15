@@ -58,15 +58,19 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
     dBField.clear();
     phase.clear();
     freq.clear();
+    dB_out.clear();
+    B_out.clear();
+
+    int N=0;
 
     int max_time=10,diskret=1e3;
 
-    double t_ad=0,Z=0,A_m=0,E_m=0,E=0,P=0,r=0,dE=0,freq_=0,v=0,t=0,sin_phi=0,acc=0,V_rf=0,V_inj=0,gamma=0,eta=0;
+    double t_ad=0,Z=0,A_m=0,E_m=0,E=0,P=0,r=0,dE=0,freq_=0,v=0,t=0,sin_phi=0,acpt=0,V_rf=0,V_inj=0,gamma=0,eta=0;
 
     double dB=0,B=0,dB_MAX=0,B_max=0;
 
     t_ad=p2[0];
-    acc=p2[1];
+    acpt=p2[1];
     V_inj=p3[6];
 
     V_rf=V_inj;
@@ -103,7 +107,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
             gamma=(A_m*(E_m+E))/(A_m*E_m);
             eta=(1./100)-(1./pow(gamma,2));
-            sin_phi=findNextX(sin_phi,V_rf*1e3,gamma,eta,acc,p);
+            sin_phi=findNextX(sin_phi,V_rf*1e3,gamma,eta,acpt,p);
             E+=(Z/A_m)*100*V_rf*1e3*sin_phi;
 
             V_rf=V_inj+((VoltageFrequency.second[f_inj(p,p3)/1e3]-V_inj)/2) * (1-cos(M_PI*t/t_ad));
@@ -133,7 +137,7 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
             gamma=(A_m*(E_m+E))/(A_m*E_m);
             eta=(1./100)-(1./pow(gamma,2));
-            sin_phi=findNextX(sin_phi,V_rf*1e3,gamma,eta,acc,p);
+            sin_phi=findNextX(sin_phi,V_rf*1e3,gamma,eta,acpt,p);
             E+=(Z/A_m)*100*V_rf*1e3*sin_phi;
 
             V_rf=VoltageFrequency.second[floor(freq_/1e3)];
@@ -153,6 +157,8 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
             i++;
         }
+
+        N=dBField.size();
 
         while (B<B_max-0.5*dB_MAX*t_ad)
         {
@@ -197,8 +203,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
 
             t+=1./diskret;
 
-
-
             freq_=v/P;
             V_rf=VoltageFrequency.second[round(freq_/1e3)];
             sin_phi=dE*A_m/((1./diskret)*freq_*Z*V_rf*1e3);
@@ -236,9 +240,55 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
         if (stopFlag) break;
         i++;
     }
+
+    double *dB_temp=new double[N]{0};
+    double *B_temp=new double[N]{0};
+    double *t_temp=new double[N]{0};
+
+    double xi=0,yi=0,t_last=0;
+
+
+    for (int i=0;i<N;i++)
+    {
+        B_temp[i]=BField[i];
+        dB_temp[i]=dBField[i];
+        t_temp[i]=time[i];
+    }
+
+    t_last=t_temp[N-1]*1e3;
+
+    gsl_interp_accel *acc=gsl_interp_accel_alloc();
+    gsl_spline *spline=gsl_spline_alloc(gsl_interp_steffen,N);
+    gsl_spline_init(spline,t_temp,B_temp,N);
+
+    for (double i=0;i<=100;i+=1./t_last)
+    {
+        xi=(1-i/100.0)*time[0]+(i/100.0)*time[N-1];
+        yi=gsl_spline_eval(spline,xi,acc);
+
+        B_out.push_back(yi);
+    }
+
+    gsl_spline_free(spline);
+    gsl_interp_accel_free(acc);
+
+    acc=gsl_interp_accel_alloc();
+    spline=gsl_spline_alloc(gsl_interp_steffen,N);
+    gsl_spline_init(spline,t_temp,dB_temp,N);
+
+    for (double i=0;i<=100;i+=1./t_last)
+    {
+        xi=(1-i/100.0)*time[0]+(i/100.0)*time[N-1];
+        yi=gsl_spline_eval(spline,xi,acc);
+
+        dB_out.push_back(yi);
+    }
+
+    qDebug()<<t_last/1e3<<B_out.size()<<dB_out.size();
+
 }
 
-double Calculate::acceptance(QVector<double> &p, QVector<double> &p2)
+double Calculate::acceptance(QVector <double> &p,QVector <double> &p2)
 {
     double p_inj=0;
 

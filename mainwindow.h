@@ -20,6 +20,7 @@ QT_END_NAMESPACE
 struct points
 {
     QVector <double> Energy,BField,dBField,phase,freq,time;
+    QVector <double> B_out,dB_out;
 };
 
 class MainWindow : public QMainWindow

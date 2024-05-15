@@ -84,10 +84,10 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustToContents</enum>
+      <enum>QAbstractScrollArea::AdjustIgnored</enum>
      </property>
      <property name="autoScrollMargin">
-      <number>18</number>
+      <number>9</number>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::AllEditTriggers</set>
@@ -926,7 +926,7 @@
    <item row="2" column="0" colspan="4">
     <widget class="QCustomPlot" name="plot" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>

@@ -14,6 +14,7 @@ public:
     Calculate();
 
     QVector <double> Energy,BField,dBField,Voltage,phase,freq,time;
+    QVector <double> dB_out,B_out,t_out;
 
     QPair <QVector <double>,QVector<double>> setVoltageFrequency(QPair <QVector <double>, QVector <double>> Voltage);
 

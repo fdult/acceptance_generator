@@ -161,6 +161,11 @@ void MainWindow::setCycleParameters()
     points.phase=calculate->phase;
     points.freq=calculate->freq;
 
+    // to TANGO dx=1e-5
+    points.B_out=calculate->B_out;
+    points.dB_out=calculate->dB_out;
+
+
     voltage->V_time=QPair <QVector <double>,QVector <double>> (points.time,calculate->Voltage);
 
     fileOut->writeToFile(voltage->V_time);
@@ -204,6 +209,8 @@ void MainWindow::clearPoints()
     points.dBField.clear();
     points.phase.clear();
     points.time.clear();
+    points.B_out.clear();
+    points.dB_out.clear();
 }
 
 void MainWindow::replot()
