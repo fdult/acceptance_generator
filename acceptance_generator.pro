@@ -1,17 +1,10 @@
 QT += core gui printsupport
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan (QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+QMAKE_CXXFLAGS_CXX11    = -std=c++0x
 
-VERSION = 1.0
-QMAKE_TARGET_COMPANY = JINR
-QMAKE_TARGET_PRODUCT = Acceptance app
-QMAKE_TARGET_COPYRIGHT = JINR
-
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+# MSVC2019 Qt 5.15.2 и 6.4.3
 
 SOURCES += \
     adiabaticity.cpp \
@@ -43,23 +36,50 @@ FORMS += \
 
 RC_ICONS = icons/icon_app.ico
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 RESOURCES += \
     resource.qrc
 
-# LIBS += LC:\Users\fedor\Documents\gsl_2.7\gsl_bin\bin -lgsl
+win32 {
 
-# win32: LIBS += -L$$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/lib -lgsl
+        INCLUDEPATH += $$(GSL_QT)/gsl_bin/include
+        DEPENDPATH += $$(GSL_QT)/gsl_bin/include
 
-# INCLUDEPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
-# DEPENDPATH += $$PWD/../../Users/fedor/Documents/gsl_2.7/gsl_bin/include
+        LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
 
+        INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc16
+        DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc16
 
-win32: LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+        INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/omniORB4
+        DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/omniORB4
 
-INCLUDEPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
-DEPENDPATH += $$PWD/../../gsl_2.7/gsl_bin/include/gsl
+        INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/COS
+        DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/COS
+
+        INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/omnithread
+        DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc16/omnithread
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -ltango
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -ltangod
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lzmq
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lzmqd
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomniORB4_rt
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomniORB4_rtd
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomniDynamic4_rt
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomniDynamic4_rtd
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomnithread_rt
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lomnithread_rtd
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lCOS4_rt
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -lCOS4_rtd
+
+        CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -llog4tango
+        else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc16_dll/ -llog4tangod
+
+        # LIBS += -lws2_32 -lIphlpapi
+
+}
+

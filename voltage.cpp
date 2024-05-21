@@ -22,7 +22,7 @@ void Voltage::init()
     setWindowTitle("Параметры напряжения");
 
     connect(ui->pushButton,&QPushButton::clicked,this,&Voltage::setVoltage);
-    connect(ui->btn_refresh,&QPushButton::clicked,this,[=]()
+    connect(ui->pushButton_2,&QPushButton::clicked,this,[=]()
     {
         disconnect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
         for (int i=0;i<ui->tableWidget->rowCount();i++)
@@ -53,6 +53,36 @@ void Voltage::init()
         }
         setVoltage();
         connect(ui->tableWidget,&QTableWidget::cellChanged,this,&Voltage::changeItem);
+    });
+
+    connect(ui->btn_refresh,&QPushButton::clicked,this,[&](){
+        ui->tableWidget->item(0,3)->setText(QString::number(3.25));
+        ui->tableWidget->item(1,3)->setText(QString::number(3.25));
+        ui->tableWidget->item(2,3)->setText(QString::number(3.25));
+        ui->tableWidget->item(3,3)->setText(QString::number(3.3));
+        ui->tableWidget->item(4,3)->setText(QString::number(3.6));
+        ui->tableWidget->item(5,3)->setText(QString::number(3.9));
+        ui->tableWidget->item(6,3)->setText(QString::number(4.2));
+        ui->tableWidget->item(7,3)->setText(QString::number(4.5));
+        ui->tableWidget->item(8,3)->setText(QString::number(5));
+        ui->tableWidget->item(9,3)->setText(QString::number(5.5));
+        ui->tableWidget->item(10,3)->setText(QString::number(6));
+        ui->tableWidget->item(11,3)->setText(QString::number(6.35));
+        ui->tableWidget->item(12,3)->setText(QString::number(6.65));
+        ui->tableWidget->item(13,3)->setText(QString::number(6.9));
+        ui->tableWidget->item(14,3)->setText(QString::number(7.1));
+        ui->tableWidget->item(15,3)->setText(QString::number(7.3));
+        ui->tableWidget->item(16,3)->setText(QString::number(7.5));
+        ui->tableWidget->item(17,3)->setText(QString::number(7.65));
+        ui->tableWidget->item(18,3)->setText(QString::number(7.8));
+        ui->tableWidget->item(19,3)->setText(QString::number(7.9));
+        ui->tableWidget->item(20,3)->setText(QString::number(8));
+
+        for (int i=0;i<ui->tableWidget->rowCount();i++)
+        {
+            ui->tableWidget->item(i,2)->setText(QString::number(ui->tableWidget->item(i,3)->text().toDouble()/
+                                                                 ui->tableWidget->item(i,0)->text().toDouble()*100));
+        }
     });
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);

@@ -2,6 +2,7 @@
 #define FILEOUT_H
 
 #include <QFile>
+#include <QDataStream>
 
 class FileOut
 {

@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     initPlot();
 
     setCycleParameters();
+
+    // Tango::DeviceProxy *device = new Tango::DeviceProxy("training/course/pse1");
 }
 
 MainWindow::~MainWindow()

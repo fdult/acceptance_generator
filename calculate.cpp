@@ -284,8 +284,6 @@ void Calculate::setFullPeriod(QPair <QVector <double>,QVector <double>> &Voltage
         dB_out.push_back(yi);
     }
 
-    qDebug()<<t_last/1e3<<B_out.size()<<dB_out.size();
-
 }
 
 double Calculate::acceptance(QVector <double> &p,QVector <double> &p2)
