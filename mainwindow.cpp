@@ -163,10 +163,13 @@ void MainWindow::setCycleParameters()
     points.phase=calculate->phase;
     points.freq=calculate->freq;
 
+    fileOut->out_V(points.time,calculate->Voltage);
+    fileOut->out_dBField(points.time,points.dBField);
+    fileOut->out_BField(points.time,points.BField);
+
     // to TANGO dx=1e-5
     points.B_out=calculate->B_out;
     points.dB_out=calculate->dB_out;
-
 
     voltage->V_time=QPair <QVector <double>,QVector <double>> (points.time,calculate->Voltage);
 

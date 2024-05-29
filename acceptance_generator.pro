@@ -41,6 +41,46 @@ RESOURCES += \
 
 win32 {
 
+        # INCLUDEPATH += $$(GSL_QT)/gsl_bin/include
+        # DEPENDPATH += $$(GSL_QT)/gsl_bin/include
+
+        # LIBS += -L$$PWD/../../gsl_2.7/gsl_bin/lib/ -lgsl
+
+        # INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc14
+        # DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc14
+
+        # INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/omniORB4
+        # DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/omniORB4
+
+        # INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/COS
+        # DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/COS
+
+        # INCLUDEPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/omnithread
+        # DEPENDPATH += $$(TANGO_ROOT_QT)/win64/include/vc14/omnithread
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -ltango
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -ltangod
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lzmq
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lzmqd
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomniORB4_rt
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomniORB4_rtd
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomniDynamic4_rt
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomniDynamic4_rtd
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomnithread_rt
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lomnithread_rtd
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lCOS4_rt
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -lCOS4_rtd
+
+        # CONFIG(release, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -llog4tango
+        # else:CONFIG(debug, debug|release): LIBS += -L$$(TANGO_ROOT_QT)/win64/lib/vc14_dll/ -llog4tangod
+
+
+
         INCLUDEPATH += $$(GSL_QT)/gsl_bin/include
         DEPENDPATH += $$(GSL_QT)/gsl_bin/include
 

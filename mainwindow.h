@@ -9,7 +9,7 @@
 #include <adiabaticity.h>
 #include <userparameters.h>
 #include <fileout.h>
-#include <tango.h>
+// #include <tango.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
